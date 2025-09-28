@@ -1,17 +1,16 @@
-# proyectoParadigma
+# PreFlopData
 Problema a resolver:
 El análisis de torneos de póker es complicado porque los registros de manos, rondas y apuestas no suelen estar disponibles en un formato estructurado ni visualizable, dificultando la identificación de patrones de juego, evaluación de estrategias y comprensión de tendencias.
 
 Usuarios afectados:
 - Jugadores de póker que desean mejorar sus estrategias.
-- Organizadores de torneos que necesitan auditar resultados.
 - Analistas de datos y entusiastas de EDA aplicados a juegos de azar.
 
 Necesidad actual:
 - No existen herramientas accesibles que permitan explorar, filtrar y visualizar datos de torneos de póker de forma intuitiva.
 
 Objetivo principal:
-- Construir una aplicación web que permita explorar datasets de póker simulados mediante estadísticas, visualizaciones y detección de patrones, de manera amigable a los usuarios.
+- Construir una aplicación web que permita explorar un datasets de póker mediante estadísticas, visualizaciones y detección de patrones, de manera amigable a los usuarios.
 
 Alcances:
 - Generar un dataset simulado de póker con miles de manos.
