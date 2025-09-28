@@ -46,6 +46,7 @@ Diccionario de datos:
 
 Campo       |  Tipo    |  Descripción                                              
 ------------+----------+-----------------------------------------------------------
+
 mano_id     |  int     |  Identificador único de la mano                           
 mesa        |  int     |  Número de la mesa donde se jugó la mano                  
 ronda       |  string  |  Etapa de la mano (Preflop, Flop, Turn, River, Showdown)  
