@@ -62,3 +62,9 @@ Componentes principales:
 
 Diagrama de referencia (basado en el esquema entregado):
 - Incluye la interacción del cliente desde la web (exploración/carga de datos), la comunicación entre frontend y backend vía HTTP/REST, y la separación lógica de procesamiento (backend) y almacenamiento (data).
+
+
+Autores: 
+-Gaspar Albornoz 
+-Ramon Espinoza
+-Vicente Gonzalez 
