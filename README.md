@@ -63,6 +63,8 @@ Componentes principales:
 Diagrama de referencia (basado en el esquema entregado):
 - Incluye la interacción del cliente desde la web (exploración/carga de datos), la comunicación entre frontend y backend vía HTTP/REST, y la separación lógica de procesamiento (backend) y almacenamiento (data).
 
+Mockup o prototipo inicial:
+- En la carpeta Otros se encuentran los primeros dos prototipos de disposición de nuestra página web. De momento, estos prototipos se enfocan únicamente en la estructura y funcionalidad principal de la aplicación, es decir, cómo se organizarán las pantallas y qué entregará nuestro programa (ejemplo: carga de dataset, panel de estadísticas). Aspectos de decoración, estilo visual y diseño gráfico serán trabajados de manera progresiva a medida que avancemos en el proyecto, por lo que los actuales mockups deben entenderse como una primera aproximación funcional al sistema.
 
 Autores: 
 -Gaspar Albornoz 
