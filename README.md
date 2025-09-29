@@ -43,15 +43,15 @@ Licencia: Creative Commons Zero (CC0).
 
 Diccionario de datos:
 
-Campo       |  Tipo    |  Descripción                                              
+Campo       -->  Tipo    -->  Descripción                                              
 ------------+----------+-----------------------------------------------------------
 
-mano_id     |  int     |  Identificador único de la mano                           
-mesa        |  int     |  Número de la mesa donde se jugó la mano                  
-ronda       |  string  |  Etapa de la mano (Preflop, Flop, Turn, River, Showdown)  
-apuestas    |  string  |  Secuencia de acciones realizadas en la ronda             
-bote_final  |  int     |  Total de fichas acumuladas en el bote                    
-ganador     |  string  |  Identificador del jugador ganador (Jugador_1 … Jugador_9)
+mano_id     -->  int     -->  Identificador único de la mano                           
+mesa        -->  int     -->  Número de la mesa donde se jugó la mano                  
+ronda       -->  string  -->  Etapa de la mano (Preflop, Flop, Turn, River, Showdown)  
+apuestas    -->  string  -->  Secuencia de acciones realizadas en la ronda             
+bote_final  -->  int     -->  Total de fichas acumuladas en el bote                    
+ganador     -->  string  -->  Identificador del jugador ganador (Jugador_1 … Jugador_9)
 
 Diagrama de arquitectura
 
