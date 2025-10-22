@@ -21,7 +21,7 @@ def generar():
 
 @app.route("/api/estadisticas", methods=["GET"])
 def estadisticas():
-    resultado = obtener_estadisticas()
+    resultado = calcular_estadisticas_basicas()
     return jsonify(resultado)
 
 if __name__ == "__main__":
