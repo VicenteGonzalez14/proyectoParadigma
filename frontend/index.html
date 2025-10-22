@@ -1,1 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PreFlopData – Estadísticas de Torneos de Póker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <h1>Estadísticas de Torneos de Póker</h1>
+        <section id="stats-panel">
+            <p id="loading-text">Cargando estadísticas...</p>
+            <div id="estadisticas"></div>
+        </section>
+        <section>
+            <button id="generar-dataset">Generar nuevo dataset</button>
+        </section>
+        <section id="error-panel" class="hidden">
+            <p class="error">No se pudo conectar con el backend.</p>
+        </section>
+    </main>
+    <script src="dist/main.js"></script>
+</body>
+</html>
 
