@@ -1,72 +1,131 @@
-# PreFlopData
-Problema a resolver:
-El análisis de torneos de póker es complicado porque los registros de manos, rondas y apuestas no suelen estar disponibles en un formato estructurado ni visualizable, dificultando la identificación de patrones de juego, evaluación de estrategias y comprensión de tendencias.
+# 🃏 PreFlopData – Entrega Parcial 2
 
-Usuarios afectados:
-- Jugadores de póker que desean mejorar sus estrategias.
-- Analistas de datos y entusiastas de EDA aplicados a juegos de azar.
+## 🎯 Objetivo
+Este proyecto simula un sistema de análisis de datos de póker **Texas Hold'em**, donde:
+- El **backend (Flask + Python)** genera y procesa un dataset simulado.  
+- El **frontend (HTML + TypeScript + CSS)** visualiza estadísticas básicas.  
 
-Necesidad actual:
-- No existen herramientas accesibles que permitan explorar, filtrar y visualizar datos de torneos de póker de forma intuitiva.
+Esta entrega demuestra:
+- Conexión real **frontend ↔ backend**  
+- Procesamiento y manipulación de datos reales  
+- Validación de entradas/salidas  
 
-Objetivo principal:
-- Construir una aplicación web que permita explorar un datasets de póker mediante estadísticas, visualizaciones y detección de patrones, de manera amigable a los usuarios.
+---
 
-Alcances:
-- Generar un dataset simulado de póker con miles de manos.
-- Permitir carga y exploración del dataset en la web.
-- Mostrar estadísticas descriptivas (botes promedio, frecuencia de rondas, acciones más comunes).
-- Detectar patrones básicos de apuestas y resultados.
+## ⚙️ Estructura del proyecto
 
-Fuera de alcance:
-- Conexión con datos reales.
-- Modelos predictivos avanzados.
-- Simulación en tiempo real de partidas.
+proyectoParadigma/
+├── backend/
+│ ├── app.py
+│ ├── utils/
+│ │ ├── generator.py
+│ │ ├── process.py
+│ │ └── stats.py
+│ ├── data/
+│ │ └── poker_dataset.json
+│ └── requirements.txt
+│
+├── frontend/
+│ ├── scr/
+│ │ ├── api.ts
+│ │ └── main.ts
+│ ├── dist/ (generado al compilar)
+│ ├── index.html
+│ ├── style.css
+│ ├── package.json
+│ └── tsconfig.json
+│
+└── README.md
 
-Selección del paradigma de programación
 
-Paradigmas seleccionados:
-- POO (Programación Orientada a Objetos): Para modelar entidades como Mano, Mesa, Ronda y Torneo, con atributos y métodos.
-- Programación Funcional: Para el cálculo de estadísticas agregadas (promedios, tasas, frecuencias).
-- Programación Estructurada: Para el flujo principal del sistema (lectura de datos, carga en memoria, ejecución de funciones).
+---
 
-Justificación:
-- La combinación de POO y funciones puras permite organizar mejor los datos de torneos y realizar cálculos estadísticos de manera modular y reusable.
+## 🧩 Requisitos previos
 
-Dataset seleccionado
+### 🔹 Backend
+- Python 3.10 o superior  
+- Flask  
+- Pandas  
+- flask-cors  
+- python-dotenv  
 
-- Tipo: Simulado.
-- Origen: Script en Python que genera manos de póker con rondas, apuestas y ganadores.
-- Tamaño: 1.000 manos inicial, escalable a decenas de miles.
+*(todo está incluido en `requirements.txt`)*
 
-Licencia: Creative Commons Zero (CC0).
+### 🔹 Frontend
+- Node.js instalado (v16+ recomendado)
+- TypeScript (instalado localmente con npm)
 
-Diccionario de datos:
+---
 
-Campo       -->  Tipo    -->  Descripción                                              
-------------+----------+-----------------------------------------------------------
+## 🚀 Pasos para ejecutar el proyecto
 
-mano_id     -->  int     -->  Identificador único de la mano                           
-mesa        -->  int     -->  Número de la mesa donde se jugó la mano                  
-ronda       -->  string  -->  Etapa de la mano (Preflop, Flop, Turn, River, Showdown)  
-apuestas    -->  string  -->  Secuencia de acciones realizadas en la ronda             
-bote_final  -->  int     -->  Total de fichas acumuladas en el bote                    
-ganador     -->  string  -->  Identificador del jugador ganador (Jugador_1 … Jugador_9)
+### 🧱 1. Iniciar el backend
 
-Diagrama de arquitectura
+1. Abrir una terminal en la carpeta `backend/`.  
+2. Activar el entorno virtual:
+   ```bash
+   venv\Scripts\activate
+   ```
+3. Instalar dependencias (solo la primera vez):
+  ```bash
+  pip install -r requirements.txt
+  ```
 
-Componentes principales:
-- Frontend (interfaz web): Permite la carga y visualización del dataset, filtrado y estadísticas.
-- Backend (Flask en Python): Procesa la lógica de negocio y genera estadísticas, visualizaciones y patrones básicos.
-- Base de datos/archivos: Almacena los datasets cargados y generados. Puede utilizar almacenamiento temporal (archivos locales) para la fase inicial.
+4. Ejecutar Flask:
+  ```bash
+  python app.py
+  ```
+5. El backend quedará disponible en:
+  ```ccp
+  http://127.0.0.1:5000
+  ```
 
-Diagrama de referencia (basado en el esquema entregado):
-- Incluye la interacción del cliente desde la web (exploración/carga de datos), la comunicación entre frontend y backend vía HTTP/REST, y la separación lógica de procesamiento (backend) y almacenamiento (data).
+✅ Si todo está correcto, verás un mensaje en consola como:
+```bash
+ * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+```
 
-Mockup o prototipo inicial:
-- En la carpeta Otros se encuentran los primeros dos prototipos de disposición de nuestra página web. De momento, estos prototipos se enfocan únicamente en la estructura y funcionalidad principal de la aplicación, es decir, cómo se organizarán las pantallas y qué entregará nuestro programa (ejemplo: carga de dataset, panel de estadísticas). Aspectos de decoración, estilo visual y diseño gráfico serán trabajados de manera progresiva a medida que avancemos en el proyecto, por lo que los actuales mockups deben entenderse como una primera aproximación funcional al sistema.
+2. Preparar el frontend
 
-Autores: 
--Gaspar Albornoz 
--Ramon Espinoza
--Vicente Gonzalez 
+1. Abrir una nueva terminal en la carpeta frontend/.
+
+2. Inicializar Node (solo una vez):
+   ```bash
+   npm init -y
+   ```
+
+3. Instalar TypeScript:
+  ```bash
+  npm install -D typescript
+  ```
+4. Verificar que existe el archivo tsconfig.json con la configuración estándar del proyecto
+
+5. Compilar el código TypeScript:
+  ```bash
+  npx tsc
+  ```
+Esto creará automáticamente la carpeta dist/ con los archivos .js generados.
+
+3. Visualizar la página web
+
+Abrir el archivo index.html con el navegador o usando la extensión Live Server en Visual Studio Code.
+
+Si el backend está activo, la página mostrará los datos reales del archivo poker_dataset.json.
+
+💡 Si aparece un mensaje de error (“No se pudo conectar con el backend”), asegúrate de que Flask esté ejecutándose en el puerto correcto.
+
+📊 Validación de resultados
+
+Al abrir la página, se mostrarán:
+
+Total de manos generadas
+
+Manos ganadas y perdidas
+
+Porcentaje de victoria
+
+Bote promedio
+
+Agresividad y riesgo medios
+
+Todos estos datos son obtenidos dinámicamente desde el backend.
