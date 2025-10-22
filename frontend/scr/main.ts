@@ -1,4 +1,4 @@
-import { obtenerEstadisticas, generarDataset } from "./api";
+import { obtenerEstadisticas, generarDataset } from "./api.js";
 
 const statsDiv = document.getElementById("estadisticas")!;
 const loadingText = document.getElementById("loading-text")!;

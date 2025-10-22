@@ -18,7 +18,7 @@ def calcular_estadisticas_basicas():
         "total_manos": int(total_manos),
         "ganadas": int(total_ganadas),
         "perdidas": int(total_perdidas),
-        "tasa_victoria_%": tasa_victoria,
+        "tasa_victoria": tasa_victoria,
         "bote_promedio": bote_promedio,
         "agresividad_media": agresividad_media,
         "riesgo_medio": riesgo_medio
