@@ -40,7 +40,6 @@ proyectoParadigma/
 │
 │
 └── Otros (en esta carpeta se encuentra el EP1, ya que al momento de informar para realizar otro branch ya habiamos modificado el anterior)
-
 ```
 ---
 
@@ -70,48 +69,51 @@ Estas dependencias están listadas en `requirements.txt`.
 2. Activar el entorno virtual:
    ```bash
    venv\Scripts\activate
+   ```
 Instalar dependencias (solo la primera vez):
 
-bash
-Copiar código
-pip install -r requirements.txt
+   ``` bash
+   pip install -r requirements.txt
+   ```
 Ejecutar Flask:
 
-bash
-Copiar código
-python app.py
+   ```bash
+   python app.py
+   ```
 El servidor quedará disponible en:
 
-cpp
-Copiar código
-http://127.0.0.1:5000
+   ```cpp
+   http://127.0.0.1:5000
+   ```
 ✅ Si todo está correcto, verás en la consola:
 
-csharp
-Copiar código
+```csharp
  * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+```
+
 💻 2. Preparar el Frontend
 Abrir una nueva terminal en la carpeta frontend/.
 
 Inicializar el entorno de Node (solo la primera vez):
 
-bash
-Copiar código
-npm init -y
+   ```bash
+   npm init -y
+   ```
+
 Instalar TypeScript:
 
-bash
-Copiar código
-npm install -D typescript
+   ```bash
+   npm install -D typescript
+   ```
+
 Crear y configurar el archivo tsconfig.json (solo si no existe):
 
-bash
-Copiar código
-npx tsc --init
+   ```bash
+   npx tsc --init
+   ```
 Luego verificar que la configuración sea exactamente igual a la siguiente:
 
-json
-Copiar código
+``` json
 {
   "compilerOptions": {
     "target": "ES2020",
@@ -131,11 +133,12 @@ Copiar código
   "include": ["scr"],
   "exclude": ["node_modules", "dist"]
 }
+```
 Compilar el código TypeScript:
 
-bash
-Copiar código
-npx tsc
+   ```bash
+   npx tsc
+   ```
 Esto creará automáticamente la carpeta dist/ con los archivos .js compilados.
 
 🌐 3. Visualizar la Página Web
@@ -177,4 +180,6 @@ Se recomienda mantener este flujo de ejecución:
 1️⃣ Iniciar backend → 2️⃣ Compilar frontend → 3️⃣ Visualizar página.
 
 ✨ Créditos
-Proyecto desarrollado por el equipo PreFlopData como parte de la asignatura Paradigmas de Programación.
+- Gaspar Albornoz
+- Ramon Espinoza
+- Vicente González.
