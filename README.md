@@ -70,28 +70,29 @@ Estas dependencias están listadas en `requirements.txt`.
    ```bash
    venv\Scripts\activate
    ```
-Instalar dependencias (solo la primera vez):
+   Instalar dependencias (solo la primera vez):
 
    ``` bash
    pip install -r requirements.txt
    ```
-Ejecutar Flask:
+   Ejecutar Flask:
 
    ```bash
    python app.py
    ```
-El servidor quedará disponible en:
+   El servidor quedará disponible en:
 
    ```cpp
    http://127.0.0.1:5000
    ```
-✅ Si todo está correcto, verás en la consola:
+   
+   ✅ Si todo está correcto, verás en la consola:
 
-```csharp
- * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
-```
+   ```csharp
+    * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+   ```
 
-💻 2. Preparar el Frontend
+## 💻 2. Preparar el Frontend
 Abrir una nueva terminal en la carpeta frontend/.
 
 Inicializar el entorno de Node (solo la primera vez):
@@ -141,7 +142,7 @@ Compilar el código TypeScript:
    ```
 Esto creará automáticamente la carpeta dist/ con los archivos .js compilados.
 
-🌐 3. Visualizar la Página Web
+## 🌐 3. Visualizar la Página Web
 Abrir el archivo index.html con un navegador o con la extensión Live Server en Visual Studio Code.
 
 Asegúrate de que el backend esté corriendo en el puerto 5000 antes de recargar la página.
@@ -169,14 +170,14 @@ Riesgo medio
 
 Estos datos se leen directamente desde el dataset poker_dataset.json generado por el backend Flask.
 
-🧠 Notas Técnicas
+##🧠 Notas Técnicas
 El proyecto aplica los paradigmas POO, Funcional e Imperativo.
 
 La comunicación entre capas utiliza el formato REST + JSON sobre el protocolo HTTP.
 
 El archivo scripts.js no se usa en esta entrega, pero se reserva para futuras extensiones visuales (por ejemplo, integración con Chart.js en la EP3).
 
-Se recomienda mantener este flujo de ejecución:
+## Se recomienda mantener este flujo de ejecución:
 1️⃣ Iniciar backend → 2️⃣ Compilar frontend → 3️⃣ Visualizar página.
 
 ✨ Créditos
