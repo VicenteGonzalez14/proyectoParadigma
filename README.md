@@ -143,34 +143,37 @@ Compilar el código TypeScript:
 Esto creará automáticamente la carpeta dist/ con los archivos .js compilados.
 
 ## 🌐 3. Visualizar la Página Web
+
 Abrir el archivo index.html con un navegador o con la extensión Live Server en Visual Studio Code.
 
 Asegúrate de que el backend esté corriendo en el puerto 5000 antes de recargar la página.
 
 💡 Si aparece el mensaje:
 
-“No se pudo conectar con el backend”
+   “No se pudo conectar con el backend”
 
 Verifica que Flask esté ejecutándose correctamente y que no haya cambiado el puerto.
 
-📊 Validación de Resultados
+# 📊 Validación de Resultados
+
 Al abrir la página, se mostrarán las estadísticas obtenidas dinámicamente desde el backend:
 
-Total de manos generadas
+   Total de manos generadas
 
-Manos ganadas y perdidas
+   Manos ganadas y perdidas
 
-Porcentaje de victoria
+   Porcentaje de victoria
 
-Bote promedio
+   Bote promedio
 
-Agresividad media
+   Agresividad media
 
-Riesgo medio
+   Riesgo medio
 
 Estos datos se leen directamente desde el dataset poker_dataset.json generado por el backend Flask.
 
-##🧠 Notas Técnicas
+## 🧠 Notas Técnicas
+
 El proyecto aplica los paradigmas POO, Funcional e Imperativo.
 
 La comunicación entre capas utiliza el formato REST + JSON sobre el protocolo HTTP.
@@ -178,6 +181,7 @@ La comunicación entre capas utiliza el formato REST + JSON sobre el protocolo H
 El archivo scripts.js no se usa en esta entrega, pero se reserva para futuras extensiones visuales (por ejemplo, integración con Chart.js en la EP3).
 
 ## Se recomienda mantener este flujo de ejecución:
+
 1️⃣ Iniciar backend → 2️⃣ Compilar frontend → 3️⃣ Visualizar página.
 
 ✨ Créditos
