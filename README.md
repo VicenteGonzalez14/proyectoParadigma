@@ -1,6 +1,6 @@
-# 🃏 PreFlopData – Entrega Parcial 2
+# PreFlopData – Entrega Parcial 2
 
-## 🎯 Objetivo
+## Objetivo
 
 Este proyecto implementa una versión intermedia operativa del sistema **PreFlopData**, una aplicación web para el análisis de datos de póker **Texas Hold’em**.  
 En esta etapa se demuestra la conexión real **Frontend ↔ Backend**, la **generación y manipulación de datos simulados** y la **validación de entradas y salidas reales**.
@@ -43,7 +43,7 @@ proyectoParadigma/
 ```
 ---
 
-## 🧩 Requisitos Previos
+## Requisitos Previos
 
 ### 🔹 Backend
 Asegúrate de tener instalado:
@@ -61,9 +61,9 @@ Estas dependencias están listadas en `requirements.txt`.
 
 ---
 
-## 🚀 Pasos para Ejecutar el Proyecto
+## Pasos para Ejecutar el Proyecto
 
-### 🧱 1. Iniciar el Backend
+### 1. Iniciar el Backend
 
 1. Abrir una terminal en la carpeta `backend/`.
    
@@ -94,7 +94,7 @@ Estas dependencias están listadas en `requirements.txt`.
     * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
    ```
 
-## 💻 2. Preparar el Frontend
+## 2. Preparar el Frontend
 
 Abrir una nueva terminal en la carpeta frontend/.
 
@@ -148,13 +148,13 @@ Abrir una nueva terminal en la carpeta frontend/.
    
 Esto creará automáticamente la carpeta dist/ con los archivos .js compilados.
 
-## 🌐 3. Visualizar la Página Web
+## 3. Visualizar la Página Web
 
 Abrir el archivo index.html con un navegador o con la extensión Live Server en Visual Studio Code.
 
 Asegúrate de que el backend esté corriendo en el puerto 5000 antes de recargar la página.
 
-💡 Si aparece el mensaje:
+   Si aparece el mensaje:
 
    “No se pudo conectar con el backend”
 
@@ -180,7 +180,7 @@ Al abrir la página, se mostrarán las estadísticas obtenidas dinámicamente de
 
 Estos datos se leen directamente desde el dataset poker_dataset.json generado por el backend Flask.
 
-## 🧠 Notas Técnicas
+##  Notas Técnicas
 
 El proyecto aplica los paradigmas POO, Funcional e Imperativo.
 
@@ -192,7 +192,7 @@ El archivo scripts.js no se usa en esta entrega, pero se reserva para futuras ex
 
 1️⃣ Iniciar backend → 2️⃣ Compilar frontend → 3️⃣ Visualizar página.
 
-✨ Créditos
+Autores: 
 - Gaspar Albornoz
 - Ramon Espinoza
 - Vicente González.
