@@ -12,35 +12,36 @@ En esta etapa se demuestra la conexión real **Frontend ↔ Backend**, la **gene
 
 ## ⚙️ Estructura del Proyecto
 
+```text
 proyectoParadigma/
 ├── backend/
-│ ├── app.py
-│ ├── utils/
-│ │ ├── generator.py
-│ │ ├── process.py
-│ │ └── stats.py
-│ ├── data/
-│ │ └── poker_dataset.json
-│ ├── requirements.txt
-│ └── venv/ (entorno virtual local)
+│   ├── app.py
+│   ├── utils/
+│   │   ├── generator.py
+│   │   ├── process.py
+│   │   └── stats.py
+│   ├── data/
+│   │   └── poker_dataset.json
+│   ├── requirements.txt
+│   └── venv/  (entorno virtual local)
 │
 ├── frontend/
-│ ├── scr/
-│ │ ├── api.ts
-│ │ └── main.ts
-│ ├── dist/ (carpeta generada al compilar TypeScript)
-│ ├── index.html
-│ ├── style.css
-│ ├── package.json
-│ ├── tsconfig.json
-│ └── scripts.js (reservado para futuras integraciones en EP3)
+│   ├── scr/
+│   │   ├── api.ts
+│   │   └── main.ts
+│   ├── dist/        (carpeta generada al compilar TypeScript)
+│   ├── index.html
+│   ├── style.css
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── scripts.js   (reservado para futuras integraciones en EP3)
 │
 └── README.md
 │
 │
-│
-└── Otros
+└── Otros (en esta carpeta se encuentra el EP1, ya que al momento de informar para realizar otro branch ya habiamos modificado el anterior)
 
+```
 ---
 
 ## 🧩 Requisitos Previos
