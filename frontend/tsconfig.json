@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    /* 🔧 Configuración general */
+    "target": "ES2020",                   /* Versión de JavaScript a generar */
+    "module": "ESNext",                   /* Permite usar import/export modernos */
+    "moduleResolution": "Bundler",        /* Resolución adecuada para proyectos frontend */
+    "strict": true,                       /* Habilita todas las verificaciones estrictas */
+    "skipLibCheck": true,                 /* Ignora comprobaciones de tipo en librerías externas */
+
+    /* 📁 Estructura de carpetas */
+    "rootDir": "./scr",                   /* Carpeta con los archivos .ts de entrada */
+    "outDir": "./dist",                   /* Carpeta donde se generarán los .js compilados */
+
+    /* 📜 Archivos y salida */
+    "sourceMap": false,                   /* No genera archivos .map (puedes activarlo si depuras) */
+    "removeComments": true,               /* Limpia comentarios del código final */
+    "noEmitOnError": true,                /* No genera salida si hay errores */
+    "allowJs": false,                     /* Solo trabaja con TypeScript */
+    "esModuleInterop": true,              /* Facilita compatibilidad con librerías JS comunes */
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["scr"],                     /* Carpeta a incluir para la compilación */
+  "exclude": ["node_modules", "dist"]     /* Carpeta a excluir */
+}

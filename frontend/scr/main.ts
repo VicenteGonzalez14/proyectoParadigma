@@ -11,7 +11,7 @@ function mostrarEstadisticas(data: any) {
             <li><strong>Total de manos:</strong> ${data.total_manos}</li>
             <li><strong>Manos ganadas:</strong> ${data.ganadas}</li>
             <li><strong>Manos perdidas:</strong> ${data.perdidas}</li>
-            <li><strong>Tasa de victoria:</strong> ${data.tasa_victoria_}%</li>
+            <li><strong>Tasa de victoria:</strong> ${data.tasa_victoria}%</li>
             <li><strong>Bote promedio:</strong> ${data.bote_promedio}</li>
             <li><strong>Agresividad media:</strong> ${data.agresividad_media}</li>
             <li><strong>Riesgo medio:</strong> ${data.riesgo_medio}</li>
