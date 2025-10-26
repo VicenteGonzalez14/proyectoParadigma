@@ -66,53 +66,57 @@ Estas dependencias están listadas en `requirements.txt`.
 ### 🧱 1. Iniciar el Backend
 
 1. Abrir una terminal en la carpeta `backend/`.
+   
 2. Activar el entorno virtual:
    ```bash
    venv\Scripts\activate
    ```
-   Instalar dependencias (solo la primera vez):
-
+   
+3. Instalar dependencias (solo la primera vez):
    ``` bash
    pip install -r requirements.txt
    ```
-   Ejecutar Flask:
-
+   
+4. Ejecutar Flask:
    ```bash
    python app.py
    ```
-   El servidor quedará disponible en:
+   
+El servidor quedará disponible en:
 
    ```cpp
    http://127.0.0.1:5000
    ```
    
-   ✅ Si todo está correcto, verás en la consola:
+✅ Si todo está correcto, verás en la consola:
 
    ```csharp
     * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
    ```
 
 ## 💻 2. Preparar el Frontend
+
 Abrir una nueva terminal en la carpeta frontend/.
 
-Inicializar el entorno de Node (solo la primera vez):
+1. Inicializar el entorno de Node (solo la primera vez):
 
    ```bash
    npm init -y
    ```
 
-Instalar TypeScript:
+2. Instalar TypeScript:
 
    ```bash
    npm install -D typescript
    ```
 
-Crear y configurar el archivo tsconfig.json (solo si no existe):
+3. Crear y configurar el archivo tsconfig.json (solo si no existe):
 
    ```bash
    npx tsc --init
    ```
-Luego verificar que la configuración sea exactamente igual a la siguiente:
+   
+4.Luego verificar que la configuración sea exactamente igual a la siguiente:
 
 ``` json
 {
@@ -135,11 +139,13 @@ Luego verificar que la configuración sea exactamente igual a la siguiente:
   "exclude": ["node_modules", "dist"]
 }
 ```
-Compilar el código TypeScript:
+
+5. Compilar el código TypeScript:
 
    ```bash
    npx tsc
    ```
+   
 Esto creará automáticamente la carpeta dist/ con los archivos .js compilados.
 
 ## 🌐 3. Visualizar la Página Web
