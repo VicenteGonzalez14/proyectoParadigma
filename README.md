@@ -1,18 +1,16 @@
 # 🃏 PreFlopData – Entrega Parcial 2
 
 ## 🎯 Objetivo
-Este proyecto simula un sistema de análisis de datos de póker **Texas Hold'em**, donde:
-- El **backend (Flask + Python)** genera y procesa un dataset simulado.  
-- El **frontend (HTML + TypeScript + CSS)** visualiza estadísticas básicas.  
 
-Esta entrega demuestra:
-- Conexión real **frontend ↔ backend**  
-- Procesamiento y manipulación de datos reales  
-- Validación de entradas/salidas  
+Este proyecto implementa una versión intermedia operativa del sistema **PreFlopData**, una aplicación web para el análisis de datos de póker **Texas Hold’em**.  
+En esta etapa se demuestra la conexión real **Frontend ↔ Backend**, la **generación y manipulación de datos simulados** y la **validación de entradas y salidas reales**.
+
+- **Backend (Flask + Python):** genera, procesa y devuelve estadísticas de un dataset simulado de póker.
+- **Frontend (HTML + TypeScript + CSS):** permite visualizar los resultados y estadísticas obtenidas desde el backend.
 
 ---
 
-## ⚙️ Estructura del proyecto
+## ⚙️ Estructura del Proyecto
 
 proyectoParadigma/
 ├── backend/
@@ -23,103 +21,135 @@ proyectoParadigma/
 │ │ └── stats.py
 │ ├── data/
 │ │ └── poker_dataset.json
-│ └── requirements.txt
+│ ├── requirements.txt
+│ └── venv/ (entorno virtual local)
 │
 ├── frontend/
 │ ├── scr/
 │ │ ├── api.ts
 │ │ └── main.ts
-│ ├── dist/ (generado al compilar)
+│ ├── dist/ (carpeta generada al compilar TypeScript)
 │ ├── index.html
 │ ├── style.css
 │ ├── package.json
-│ └── tsconfig.json
+│ ├── tsconfig.json
+│ └── scripts.js (reservado para futuras integraciones en EP3)
 │
 └── README.md
-
+│
+│
+│
+└── Otros
 
 ---
 
-## 🧩 Requisitos previos
+## 🧩 Requisitos Previos
 
 ### 🔹 Backend
-- Python 3.10 o superior  
-- Flask  
-- Pandas  
-- flask-cors  
-- python-dotenv  
+Asegúrate de tener instalado:
+- **Python 3.10 o superior**
+- **Flask**
+- **Pandas**
+- **flask-cors**
+- **python-dotenv**
 
-*(todo está incluido en `requirements.txt`)*
+Estas dependencias están listadas en `requirements.txt`.
 
 ### 🔹 Frontend
-- Node.js instalado (v16+ recomendado)
-- TypeScript (instalado localmente con npm)
+- **Node.js** (v16 o superior)
+- **TypeScript** (instalado localmente con npm)
 
 ---
 
-## 🚀 Pasos para ejecutar el proyecto
+## 🚀 Pasos para Ejecutar el Proyecto
 
-### 🧱 1. Iniciar el backend
+### 🧱 1. Iniciar el Backend
 
-1. Abrir una terminal en la carpeta `backend/`.  
+1. Abrir una terminal en la carpeta `backend/`.
 2. Activar el entorno virtual:
    ```bash
    venv\Scripts\activate
-   ```
-3. Instalar dependencias (solo la primera vez):
-  ```bash
-  pip install -r requirements.txt
-  ```
+Instalar dependencias (solo la primera vez):
 
-4. Ejecutar Flask:
-  ```bash
-  python app.py
-  ```
-5. El backend quedará disponible en:
-  ```ccp
-  http://127.0.0.1:5000
-  ```
+bash
+Copiar código
+pip install -r requirements.txt
+Ejecutar Flask:
 
-✅ Si todo está correcto, verás un mensaje en consola como:
-```bash
+bash
+Copiar código
+python app.py
+El servidor quedará disponible en:
+
+cpp
+Copiar código
+http://127.0.0.1:5000
+✅ Si todo está correcto, verás en la consola:
+
+csharp
+Copiar código
  * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
-```
+💻 2. Preparar el Frontend
+Abrir una nueva terminal en la carpeta frontend/.
 
-2. Preparar el frontend
+Inicializar el entorno de Node (solo la primera vez):
 
-1. Abrir una nueva terminal en la carpeta frontend/.
+bash
+Copiar código
+npm init -y
+Instalar TypeScript:
 
-2. Inicializar Node (solo una vez):
-   ```bash
-   npm init -y
-   ```
+bash
+Copiar código
+npm install -D typescript
+Crear y configurar el archivo tsconfig.json (solo si no existe):
 
-3. Instalar TypeScript:
-  ```bash
-  npm install -D typescript
-  ```
-4. Crear el archivo tsconfig.json y editarlo con la configuración estándar del proyecto (final del ReadMe)
- ```bash
-  npx tsc --init
-  ```
+bash
+Copiar código
+npx tsc --init
+Luego verificar que la configuración sea exactamente igual a la siguiente:
 
-5. Compilar el código TypeScript:
-  ```bash
-  npx tsc
-  ```
-Esto creará automáticamente la carpeta dist/ con los archivos .js generados.
+json
+Copiar código
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "rootDir": "./scr",
+    "outDir": "./dist",
+    "sourceMap": false,
+    "removeComments": true,
+    "noEmitOnError": true,
+    "allowJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["scr"],
+  "exclude": ["node_modules", "dist"]
+}
+Compilar el código TypeScript:
 
-3. Visualizar la página web
+bash
+Copiar código
+npx tsc
+Esto creará automáticamente la carpeta dist/ con los archivos .js compilados.
 
-Abrir el archivo index.html con el navegador o usando la extensión Live Server en Visual Studio Code.
+🌐 3. Visualizar la Página Web
+Abrir el archivo index.html con un navegador o con la extensión Live Server en Visual Studio Code.
 
-Si el backend está activo, la página mostrará los datos reales del archivo poker_dataset.json.
+Asegúrate de que el backend esté corriendo en el puerto 5000 antes de recargar la página.
 
-💡 Si aparece un mensaje de error (“No se pudo conectar con el backend”), asegúrate de que Flask esté ejecutándose en el puerto correcto.
+💡 Si aparece el mensaje:
 
-📊 Validación de resultados
+“No se pudo conectar con el backend”
 
-Al abrir la página, se mostrarán:
+Verifica que Flask esté ejecutándose correctamente y que no haya cambiado el puerto.
+
+📊 Validación de Resultados
+Al abrir la página, se mostrarán las estadísticas obtenidas dinámicamente desde el backend:
 
 Total de manos generadas
 
@@ -129,33 +159,21 @@ Porcentaje de victoria
 
 Bote promedio
 
-Agresividad y riesgo medios
+Agresividad media
 
-Todos estos datos son obtenidos dinámicamente desde el backend.
+Riesgo medio
 
+Estos datos se leen directamente desde el dataset poker_dataset.json generado por el backend Flask.
 
-Configuración estándar tsconfig.json:
-{
-  "compilerOptions": {
-    /* 🔧 Configuración general */
-    "target": "ES2020",                   /* Versión de JavaScript a generar */
-    "module": "ESNext",                   /* Permite usar import/export modernos */
-    "moduleResolution": "Bundler",        /* Resolución adecuada para proyectos frontend */
-    "strict": true,                       /* Habilita todas las verificaciones estrictas */
-    "skipLibCheck": true,                 /* Ignora comprobaciones de tipo en librerías externas */
+🧠 Notas Técnicas
+El proyecto aplica los paradigmas POO, Funcional e Imperativo.
 
-    /* 📁 Estructura de carpetas */
-    "rootDir": "./scr",                   /* Carpeta con los archivos .ts de entrada */
-    "outDir": "./dist",                   /* Carpeta donde se generarán los .js compilados */
+La comunicación entre capas utiliza el formato REST + JSON sobre el protocolo HTTP.
 
-    /* 📜 Archivos y salida */
-    "sourceMap": false,                   /* No genera archivos .map (puedes activarlo si depuras) */
-    "removeComments": true,               /* Limpia comentarios del código final */
-    "noEmitOnError": true,                /* No genera salida si hay errores */
-    "allowJs": false,                     /* Solo trabaja con TypeScript */
-    "esModuleInterop": true,              /* Facilita compatibilidad con librerías JS comunes */
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["scr"],                     /* Carpeta a incluir para la compilación */
-  "exclude": ["node_modules", "dist"]     /* Carpeta a excluir */
-}
+El archivo scripts.js no se usa en esta entrega, pero se reserva para futuras extensiones visuales (por ejemplo, integración con Chart.js en la EP3).
+
+Se recomienda mantener este flujo de ejecución:
+1️⃣ Iniciar backend → 2️⃣ Compilar frontend → 3️⃣ Visualizar página.
+
+✨ Créditos
+Proyecto desarrollado por el equipo PreFlopData como parte de la asignatura Paradigmas de Programación.
