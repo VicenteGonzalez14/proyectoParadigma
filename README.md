@@ -98,7 +98,10 @@ proyectoParadigma/
   ```bash
   npm install -D typescript
   ```
-4. Verificar que existe el archivo tsconfig.json con la configuración estándar del proyecto
+4. Crear el archivo tsconfig.json y editarlo con la configuración estándar del proyecto (final del ReadMe)
+ ```bash
+  npx tsc --init
+  ```
 
 5. Compilar el código TypeScript:
   ```bash
@@ -131,6 +134,7 @@ Agresividad y riesgo medios
 Todos estos datos son obtenidos dinámicamente desde el backend.
 
 
+Configuración estándar tsconfig.json:
 {
   "compilerOptions": {
     /* 🔧 Configuración general */
