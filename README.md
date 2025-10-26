@@ -82,13 +82,13 @@ Estas dependencias están listadas en `requirements.txt`.
    python app.py
    ```
  
-El servidor quedará disponible en:
+5. El servidor quedará disponible en:
 
    ```cpp
    http://127.0.0.1:5000
    ```
    
-✅ Si todo está correcto, verás en la consola:
+6. Si todo está correcto, verás en la consola:
 
    ```csharp
     * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
@@ -118,27 +118,28 @@ Abrir una nueva terminal en la carpeta frontend/.
    
 4. Luego verificar que la configuración sea exactamente igual a la siguiente:
 
-``` json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "strict": true,
-    "skipLibCheck": true,
-    "rootDir": "./scr",
-    "outDir": "./dist",
-    "sourceMap": false,
-    "removeComments": true,
-    "noEmitOnError": true,
-    "allowJs": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["scr"],
-  "exclude": ["node_modules", "dist"]
-}
-```
+   ``` json
+   {
+     "compilerOptions": {
+       "target": "ES2020",
+       "module": "ESNext",
+       "moduleResolution": "Bundler",
+       "strict": true,
+       "skipLibCheck": true,
+       "rootDir": "./scr",
+       "outDir": "./dist",
+       "sourceMap": false,
+       "removeComments": true,
+       "noEmitOnError": true,
+       "allowJs": false,
+       "esModuleInterop": true,
+       "forceConsistentCasingInFileNames": true
+     },
+     "include": ["scr"],
+     "exclude": ["node_modules", "dist"]
+   }
+
+   ```
 5. Compilar el código TypeScript:
 
    ```bash
@@ -163,6 +164,7 @@ Verifica que Flask esté ejecutándose correctamente y que no haya cambiado el p
 
 Al abrir la página, se mostrarán las estadísticas obtenidas dinámicamente desde el backend:
 
+   ```text
    Total de manos generadas
 
    Manos ganadas y perdidas
@@ -174,6 +176,7 @@ Al abrir la página, se mostrarán las estadísticas obtenidas dinámicamente de
    Agresividad media
 
    Riesgo medio
+   ```
 
 Estos datos se leen directamente desde el dataset poker_dataset.json generado por el backend Flask.
 
