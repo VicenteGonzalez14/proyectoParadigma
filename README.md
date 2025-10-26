@@ -81,7 +81,7 @@ Estas dependencias están listadas en `requirements.txt`.
    ```bash
    python app.py
    ```
-   
+ 
 El servidor quedará disponible en:
 
    ```cpp
@@ -116,7 +116,7 @@ Abrir una nueva terminal en la carpeta frontend/.
    npx tsc --init
    ```
    
-4.Luego verificar que la configuración sea exactamente igual a la siguiente:
+4. Luego verificar que la configuración sea exactamente igual a la siguiente:
 
 ``` json
 {
@@ -139,7 +139,6 @@ Abrir una nueva terminal en la carpeta frontend/.
   "exclude": ["node_modules", "dist"]
 }
 ```
-
 5. Compilar el código TypeScript:
 
    ```bash
