@@ -4,10 +4,41 @@
     <meta charset="UTF-8">
     <title>PreFlopData – Estadísticas de Torneos de Póker</title>
     <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
     <main>
-        <h1>Estadísticas de Torneos de Póker</h1>
+        <h1>Analizador de Manos</h1>
+        <section id="interactive-panel">
+            <form id="hand-form">
+                <div class="card-inputs">
+                    <label>Tu Mano (2 cartas):</label>
+                    <input type="text" id="carta1" placeholder="Ej: A♠" maxlength="3" required>
+                    <input type="text" id="carta2" placeholder="Ej: K♥" maxlength="3" required>
+                </div>
+                <div class="card-inputs">
+                    <label>Mesa (3-5 cartas):</label>
+                    <input type="text" id="com1" placeholder="Ej: Q♦" maxlength="3">
+                    <input type="text" id="com2" placeholder="Ej: J♣" maxlength="3">
+                    <input type="text" id="com3" placeholder="Ej: 10♠" maxlength="3">
+                    <input type="text" id="com4" placeholder="Turn" maxlength="3">
+                    <input type="text" id="com5" placeholder="River" maxlength="3">
+                </div>
+                <button type="submit">Analizar Mano</button>
+            </form>
+        </section>
+
+        <section id="chart-panel" class="hidden">
+            <h2 id="chart-title">Resultado del Análisis</h2>
+            <div class="chart-container">
+                <canvas id="win-probability-chart"></canvas>
+            </div>
+            <p id="analysis-category">Categoría: -</p>
+        </section>
+
+        <hr> <h1>Estadísticas Generales del Dataset</h1>
         <section id="stats-panel">
             <p id="loading-text">Cargando estadísticas...</p>
             <div id="estadisticas"></div>
@@ -15,11 +46,7 @@
         <section>
             <button id="generar-dataset">Generar nuevo dataset</button>
         </section>
-        <section id="error-panel" class="hidden">
-            <p class="error">No se pudo conectar con el backend.</p>
-        </section>
-    </main>
+        </main>
     <script type="module" src="dist/main.js"></script>
 </body>
 </html>
-
