@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chart.js": "^2.9.41",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.1"
   }
 }
