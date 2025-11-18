@@ -129,11 +129,33 @@ def generar_dataset(num_manos=5000, usuario_id="Jugador_1"):
     for mano_id in range(1, num_manos + 1):
         mesa = random.randint(1, 5)
         num_jugadores = random.randint(2, 9)
+
+        # Jugadores
         jugadores = random.sample(jugadores_base, num_jugadores)
         if usuario_id not in jugadores:
             jugadores[random.randint(0, num_jugadores - 1)] = usuario_id
 
+        # ---------------------------------------
+        # POSICIONES REALES TEXAS HOLD’EM
+        # ---------------------------------------
+        posiciones_reales = ["SB", "BB", "UTG", "UTG+1", "MP", "LJ", "HJ", "CO", "BTN"]
+        posiciones_reales = posiciones_reales[:num_jugadores]
+
+        # Crear orden de asientos (mesa circular)
+        random.shuffle(jugadores)  # Asientos aleatorios
+        asientos = jugadores       # alias más claro
+
+        # Asignar posiciones a cada asiento
+        asignacion_posiciones = {
+            jugador: posiciones_reales[i]
+            for i, jugador in enumerate(asientos)
+        }
+
+        posicion_usuario = asignacion_posiciones[usuario_id]
+
+        # ---------------------------------------
         # Cartas únicas
+        # ---------------------------------------
         cartas_disponibles = cartas_totales.copy()
         cartas_usuario = random.sample(cartas_disponibles, 2)
         for c in cartas_usuario:
@@ -190,7 +212,8 @@ def generar_dataset(num_manos=5000, usuario_id="Jugador_1"):
             "bote_final": bote,
             "ganador": ganador,
             "puntos_estrategia": puntos_estrategia,
-            "probabilidad_victoria": round(prob_ganar, 3)
+            "probabilidad_victoria": round(prob_ganar, 3),
+            "posicion_usuario": posicion_usuario,
         }
 
         dataset.append(mano)
