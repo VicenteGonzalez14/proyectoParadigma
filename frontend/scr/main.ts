@@ -1,4 +1,12 @@
-// 1. IMPORTACIONES
+// ===============================
+// CHART.JS VIENE DESDE CDN
+// ===============================
+declare const Chart: any;
+
+
+// ========================================
+// 1. IMPORTACIONES DESDE API.JS
+// ========================================
 import { 
     obtenerEstadisticas, 
     generarDataset, 
@@ -11,13 +19,10 @@ import {
     obtenerBoteAgresividad,
     obtenerTimelineProfit
 } from "./api.js";
-import { Chart, registerables, type TooltipItem } from 'chart.js';
-Chart.register(...registerables);
 
 
 // ===================================================
 // 3. DECLARACIÓN DE VARIABLES GLOBALES
-// (Se declaran aquí, se inicializan en DOMContentLoaded)
 // ===================================================
 
 // --- Referencias al DOM ---
@@ -40,10 +45,15 @@ let chartBoteAgresividadCanvas: HTMLCanvasElement;
 let chartTimelineProfitCanvas: HTMLCanvasElement;
 
 // --- Cache de Gráficos ---
-let winChart: Chart | null = null;
-let dashboardCharts: { [key: string]: Chart | null } = {
-    'winrate-posicion': null, 'histograma-botes': null, 'agresividad-profit': null, 
-    'frecuencia-categorias': null, 'riesgo-winrate': null, 'bote-agresividad': null, 
+let winChart: any = null;
+
+let dashboardCharts: { [key: string]: any | null } = {
+    'winrate-posicion': null, 
+    'histograma-botes': null, 
+    'agresividad-profit': null,
+    'frecuencia-categorias': null, 
+    'riesgo-winrate': null, 
+    'bote-agresividad': null, 
     'timeline-profit': null,
 };
 
@@ -89,9 +99,6 @@ async function cargarEstadisticas() {
 // 5. FUNCIONES DE ANÁLISIS DE MANO
 // ===================================================
 
-/**
- * Dibuja o actualiza el gráfico de dona con los datos de análisis de mano.
- */
 function dibujarGrafico(analysisData: any) {
     chartPanel.classList.remove("hidden");
 
@@ -127,7 +134,7 @@ function dibujarGrafico(analysisData: any) {
             legend: { position: 'top' },
             tooltip: {
               callbacks: {
-                label: function(context: TooltipItem<"doughnut">) {
+                label: function(context: any) {
                   return `${context.label}: ${context.raw}%`;
                   }
               }
@@ -140,7 +147,7 @@ function dibujarGrafico(analysisData: any) {
 
 
 // ===================================================
-// 6. DASHBOARD DE GRÁFICOS (Implementación Completa)
+// 6. DASHBOARD DE GRÁFICOS
 // ===================================================
 
 function updateChart(chartId: string, canvas: HTMLCanvasElement, chartType: string, data: any, options: any) {
@@ -172,7 +179,7 @@ async function cargarWinratePosicion() {
                     label: 'Manos Jugadas (Count)',
                     data: data.map((d: any) => d.hands),
                     backgroundColor: 'rgba(255, 159, 64, 0.7)',
-                    type: 'line', 
+                    type: 'line',
                     borderColor: 'rgba(255, 159, 64, 1)',
                     yAxisID: 'y1'
                 }
@@ -193,7 +200,7 @@ async function cargarWinratePosicion() {
             }
         };
         updateChart('winrate-posicion', chartWinratePosicionCanvas, 'bar', chartData, options);
-    } catch (e) { console.error(e); throw new Error("Error en winrate-posicion"); }
+    } catch (e) { console.error(e); }
 }
 
 async function cargarHistogramaBotes() {
@@ -212,7 +219,7 @@ async function cargarHistogramaBotes() {
 
         const options = { responsive: true, scales: { y: { beginAtZero: true } } };
         updateChart('histograma-botes', chartHistogramaBotesCanvas, 'bar', chartData, options);
-    } catch (e) { console.error(e); throw new Error("Error en histograma-botes"); }
+    } catch (e) { console.error(e); }
 }
 
 async function cargarAgresividadProfit() {
@@ -235,11 +242,15 @@ async function cargarAgresividadProfit() {
                 y: { beginAtZero: true, title: { display: true, text: 'Winrate (%)' } } 
             },
             plugins: {
-                tooltip: { callbacks: { label: (context: TooltipItem<'bar'>) => `${context.dataset.label}: ${context.parsed.y}%` } }
+                tooltip: { 
+                    callbacks: { 
+                        label: (context: any) => `${context.dataset.label}: ${context.parsed.y}%` 
+                    } 
+                }
             }
         };
         updateChart('agresividad-profit', chartAgresividadProfitCanvas, 'bar', chartData, options);
-    } catch (e) { console.error(e); throw new Error("Error en agresividad-profit"); }
+    } catch (e) { console.error(e); }
 }
 
 async function cargarFrecuenciaCategorias() {
@@ -251,7 +262,8 @@ async function cargarFrecuenciaCategorias() {
                 label: 'Cantidad',
                 data: data.map((d: any) => d.cantidad),
                 backgroundColor: [
-                    '#20b6c8', '#FF6384', '#FF9F40', '#4BC0C0', '#9966FF', '#FFCD56', '#C9CBCE', '#36A2EB'
+                    '#20b6c8', '#FF6384', '#FF9F40', '#4BC0C0', 
+                    '#9966FF', '#FFCD56', '#C9CBCE', '#36A2EB'
                 ],
                 hoverOffset: 4
             }]
@@ -259,7 +271,7 @@ async function cargarFrecuenciaCategorias() {
 
         const options = { responsive: true };
         updateChart('frecuencia-categorias', chartFrecuenciaCategoriasCanvas, 'pie', chartData, options);
-    } catch (e) { console.error(e); throw new Error("Error en frecuencia-categorias"); }
+    } catch (e) { console.error(e); }
 }
 
 async function cargarRiesgoWinrate() {
@@ -282,11 +294,15 @@ async function cargarRiesgoWinrate() {
                 y: { beginAtZero: true, title: { display: true, text: 'Winrate (%)' } } 
             },
             plugins: {
-                tooltip: { callbacks: { label: (context: TooltipItem<'bar'>) => `${context.dataset.label}: ${context.parsed.y}%` } }
+                tooltip: { 
+                    callbacks: { 
+                        label: (context: any) => `${context.dataset.label}: ${context.parsed.y}%` 
+                    } 
+                }
             }
         };
         updateChart('riesgo-winrate', chartRiesgoWinrateCanvas, 'bar', chartData, options);
-    } catch (e) { console.error(e); throw new Error("Error en riesgo-winrate"); }
+    } catch (e) { console.error(e); }
 }
 
 async function cargarBoteAgresividad() {
@@ -310,7 +326,7 @@ async function cargarBoteAgresividad() {
             }
         };
         updateChart('bote-agresividad', chartBoteAgresividadCanvas, 'bar', chartData, options);
-    } catch (e) { console.error(e); throw new Error("Error en bote-agresividad"); }
+    } catch (e) { console.error(e); }
 }
 
 async function cargarTimelineProfit() {
@@ -335,12 +351,10 @@ async function cargarTimelineProfit() {
             }
         };
         updateChart('timeline-profit', chartTimelineProfitCanvas, 'line', chartData, options);
-    } catch (e) { console.error(e); throw new Error("Error en timeline-profit"); }
+    } catch (e) { console.error(e); }
 }
 
-/**
- * Función principal para cargar todos los gráficos del dashboard.
- */
+
 async function cargarDashboard() {
     errorChartsPanel.classList.add("hidden");
     try {
@@ -360,6 +374,7 @@ async function cargarDashboard() {
     }
 }
 
+
 // ===================================================
 // 7. CARGA INICIAL Y LISTENERS
 // ===================================================
@@ -373,9 +388,7 @@ async function iniciarApp() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM Content Loaded: Inicializando referencias y listeners.");
 
-    // 1. Inicializar referencias al DOM 
     statsDiv = document.getElementById("estadisticas")!;
     loadingText = document.getElementById("loading-text")!;
     errorPanel = document.getElementById("error-panel")!;
@@ -395,10 +408,11 @@ document.addEventListener("DOMContentLoaded", () => {
     chartRiesgoWinrateCanvas = document.getElementById("chart-riesgo-winrate") as HTMLCanvasElement;
     chartBoteAgresividadCanvas = document.getElementById("chart-bote-agresividad") as HTMLCanvasElement;
     chartTimelineProfitCanvas = document.getElementById("chart-timeline-profit") as HTMLCanvasElement;
-    
-    // 2. LÓGICA AUXILIAR DE CARTAS (Integrada desde el script de index.html)
 
-    // Función para combinar los valores de los selects de Rango y Pinta
+    // ===================================================
+    // LÓGICA DE INPUTS DE CARTAS (Ocultos)
+    // ===================================================
+
     function updateCardValue(rankId: string, suitId: string, targetId: string) {
         const rankEl = document.getElementById(rankId) as HTMLSelectElement | null;
         const suitEl = document.getElementById(suitId) as HTMLSelectElement | null;
@@ -416,10 +430,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Nombres de los inputs ocultos
     const cardInputIds = ["carta1", "carta2", "com1", "com2", "com3", "com4", "com5"];
 
-    // 2.1. Crear inputs ocultos
     cardInputIds.forEach(id => {
         const input = document.createElement('input');
         input.type = 'hidden';
@@ -428,7 +440,6 @@ document.addEventListener("DOMContentLoaded", () => {
         handForm.appendChild(input); 
     });
 
-    // 2.2. Asignar listeners a los selects para actualizar el valor oculto
     const selectorsToListen = [
         { rank: 'rank1', suit: 'suit1', target: 'carta1' },
         { rank: 'rank2', suit: 'suit2', target: 'carta2' },
@@ -444,20 +455,22 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById(s.suit)?.addEventListener('change', () => updateCardValue(s.rank, s.suit, s.target));
     });
 
-    // 2.3. Inicializar con los valores por defecto
-    selectorsToListen.filter(s => s.target === 'carta1' || s.target === 'carta2').forEach(s => updateCardValue(s.rank, s.suit, s.target));
+    selectorsToListen
+        .filter(s => s.target === 'carta1' || s.target === 'carta2')
+        .forEach(s => updateCardValue(s.rank, s.suit, s.target));
 
 
-    // 3. Agregar Listeners a Botones (Ya estaban aquí)
-    
-    // Manejador del botón Generar Dataset
+    // ===================================================
+    // EVENTOS
+    // ===================================================
+
     generarBtn.addEventListener("click", async () => {
         generarBtn.textContent = "Generando...";
         generarBtn.disabled = true;
         try {
             await generarDataset();
             await cargarEstadisticas();
-            await cargarDashboard(); 
+            await cargarDashboard();
             generarBtn.textContent = "Generar nuevo dataset";
         } catch (e) {
             mostrarError("No se pudo generar el dataset.");
@@ -465,17 +478,16 @@ document.addEventListener("DOMContentLoaded", () => {
         generarBtn.disabled = false;
     });
 
-    // Manejador del envío del formulario de análisis
     handForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const btn = handForm.querySelector("button")!;
+
         btn.textContent = "Analizando...";
         btn.disabled = true;
         errorPanel.classList.add("hidden");
 
         try {
-            // Recolectar datos de los inputs ocultos
             const cartas_usuario = [
                 (document.getElementById("carta1") as HTMLInputElement).value,
                 (document.getElementById("carta2") as HTMLInputElement).value
@@ -501,6 +513,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.disabled = false;
     });
 
-    // 4. Iniciar la aplicación
+
     iniciarApp();
 });
