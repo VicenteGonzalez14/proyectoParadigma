@@ -2,8 +2,22 @@ import json
 import random
 import math
 from pathlib import Path
+import os # Importamos os para ayudar con la ruta base
 
-DATA_PATH = Path(__file__).parent.parent / "data" / "poker_dataset.json"
+# ----------------------------------------------------------------------
+# MODIFICACIÓN CLAVE: DATA_PATH
+# Calculamos la ruta absoluta desde el directorio de trabajo (donde se ejecuta app.py)
+# Si app.py se ejecuta en 'backend/', esta ruta apunta a 'backend/data/poker_dataset.json'
+# ----------------------------------------------------------------------
+BASE_DIR = Path(os.getcwd()).parent # Si app.py se corre desde el venv en 'backend', el cwd puede ser venv, por eso .parent
+DATA_PATH = Path(os.getcwd()) / "data" / "poker_dataset.json" 
+
+# Si la ruta anterior no funciona, volver a la original pero más robusta:
+# DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "poker_dataset.json"
+
+# Para garantizar que el archivo se escribe:
+DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "poker_dataset.json"
+
 
 # -------------------------
 # Funciones auxiliares
@@ -26,22 +40,39 @@ def evaluar_mano(cartas_usuario, cartas_comunitarias):
     doble_par = len(valores) - len(set(valores)) >= 2
     trio = any(valores.count(v) == 3 for v in valores)
     color = any(palos.count(p) >= 5 for p in palos)
-    escalera = any(all(n - i in nums for i in range(5)) for n in range(14, 5, -1))
+    
+    # Simplificación de escalera: verifica si 5 cartas consecutivas existen en los valores
+    escalera = False
+    unique_nums = sorted(list(set(nums)))
+    # Añadir el As como 1 (para escaleras A-5)
+    if 14 in unique_nums:
+        unique_nums.insert(0, 1)
 
+    if len(unique_nums) >= 5:
+        for i in range(len(unique_nums) - 4):
+            if unique_nums[i] + 1 == unique_nums[i+1] and \
+               unique_nums[i] + 2 == unique_nums[i+2] and \
+               unique_nums[i] + 3 == unique_nums[i+3] and \
+               unique_nums[i] + 4 == unique_nums[i+4]:
+                escalera = True
+                break
+    
     if color and escalera:
         return "Escalera de Color"
     elif trio and par:
         return "Full"
+    elif any(valores.count(v) == 4 for v in valores): # Añadido Póker
+        return "Póker"
+    elif color:
+        return "Color"
+    elif escalera:
+        return "Escalera"
     elif trio:
         return "Trío"
     elif doble_par:
         return "Doble Par"
     elif par:
         return "Par"
-    elif escalera:
-        return "Escalera"
-    elif color:
-        return "Color"
     else:
         return "Carta Alta"
 
@@ -108,7 +139,7 @@ def probabilidad_victoria_mejorada(categoria, rondas, n_rivales, puntos_estrateg
 
     p_fold = fold_equity(agresividad, riesgo, acciones_total, n_rivales, ronda_idx)
 
-    p_total = p_mano + (1 - p_mano) * p_fold  # prob ganar o hacer foldear
+    p_total = p_mano + (1 - p_mano) * p_fold    # prob ganar o hacer foldear
     return max(0.03, min(0.98, p_total))
 
 # -------------------------
@@ -142,8 +173,8 @@ def generar_dataset(num_manos=5000, usuario_id="Jugador_1"):
         posiciones_reales = posiciones_reales[:num_jugadores]
 
         # Crear orden de asientos (mesa circular)
-        random.shuffle(jugadores)  # Asientos aleatorios
-        asientos = jugadores       # alias más claro
+        random.shuffle(jugadores)    # Asientos aleatorios
+        asientos = jugadores         # alias más claro
 
         # Asignar posiciones a cada asiento
         asignacion_posiciones = {
@@ -219,9 +250,14 @@ def generar_dataset(num_manos=5000, usuario_id="Jugador_1"):
         dataset.append(mano)
 
     # Guardar dataset
-    DATA_PATH.parent.mkdir(exist_ok=True)
-    with open(DATA_PATH, "w", encoding="utf-8") as f:
-        json.dump(dataset, f, indent=4, ensure_ascii=False)
+    # Aseguramos que la carpeta exista ANTES de intentar abrir el archivo
+    try:
+        DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(DATA_PATH, "w", encoding="utf-8") as f:
+            json.dump(dataset, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        print(f"🛑 ERROR CRÍTICO al guardar dataset en {DATA_PATH.resolve()}: {e}")
+        raise RuntimeError("Fallo al escribir el archivo de datos. Verifique permisos.") from e
 
     print(f"✅ Dataset generado con {num_manos} manos del jugador {usuario_id}.")
     return {"status": "ok", "mensaje": f"Dataset generado con {num_manos} manos del jugador {usuario_id}."}

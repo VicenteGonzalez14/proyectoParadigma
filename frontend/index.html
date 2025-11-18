@@ -1,110 +1,119 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>PreFlopData – Estadísticas de Torneos de Póker</title>
-    <link rel="stylesheet" href="style.css">
-
-
+    <meta charset="UTF-8">
+    <title>PreFlopData – Estadísticas de Torneos de Póker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main>
-        <h1>Analizador de Manos</h1>
-        <section id="interactive-panel">
-            <form id="hand-form">
-    <div class="form-section">
-        <label>Tu Mano (Obligatorio):</label>
-        <div class="card-selector-group">
-            <select id="rank1" class="card-select" required>
-                <option value="A">A</option>
-                <option value="K">K</option>
-                <option value="Q">Q</option>
-                <option value="J">J</option>
-                <option value="10">10</option>
-                <option value="9">9</option>
-                <option value="8">8</option>
-                <option value="7">7</option>
-                <option value="6">6</option>
-                <option value="5">5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-            </select>
-            <select id="suit1" class="card-select" required>
-                <option value="♠">♠ (Picas)</option>
-                <option value="♥">♥ (Corazones)</option>
-                <option value="♦">♦ (Diamantes)</option>
-                <option value="♣">♣ (Tréboles)</option>
-            </select>
-            
-            <span class="card-separator">|</span>
+    <main>
+        <h1>Analizador de Manos</h1>
+        <section id="interactive-panel">
+            <form id="hand-form">
+    <div class="form-section">
+        <label>Tu Mano (Obligatorio):</label>
+        <div class="card-selector-group">
+                        <select id="rank1" class="card-select" required>
+                <option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option>
+            </select>
+            <select id="suit1" class="card-select" required>
+                <option value="♠">♠ (Picas)</option><option value="♥">♥ (Corazones)</option><option value="♦">♦ (Diamantes)</option><option value="♣">♣ (Tréboles)</option>
+            </select>
+            
+            <span class="card-separator">|</span>
 
-            <select id="rank2" class="card-select" required>
-                <option value="A">A</option>
-                <option value="K">K</option>
-                <option value="Q">Q</option>
-                <option value="J">J</option>
-                <option value="10">10</option>
-                <option value="9">9</option>
-                <option value="8">8</option>
-                <option value="7">7</option>
-                <option value="6">6</option>
-                <option value="5">5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-            </select>
-            <select id="suit2" class="card-select" required>
-                <option value="♠">♠ (Picas)</option>
-                <option value="♥">♥ (Corazones)</option>
-                <option value="♦">♦ (Diamantes)</option>
-                <option value="♣">♣ (Tréboles)</option>
-            </select>
-        </div>
-    </div>
+            <select id="rank2" class="card-select" required>
+                <option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option>
+            </select>
+            <select id="suit2" class="card-select" required>
+                <option value="♠">♠ (Picas)</option><option value="♥">♥ (Corazones)</option><option value="♦">♦ (Diamantes)</option><option value="♣">♣ (Tréboles)</option>
+            </select>
+        </div>
+    </div>
 
-    <div class="form-section">
-        <label>Mesa (Opcional):</label>
-        <div class="card-selector-group">
-            <select id="com1_rank" class="card-select"><option value="">- Flop 1 -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
-            <select id="com1_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
-            
-            <select id="com2_rank" class="card-select"><option value="">- Flop 2 -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
-            <select id="com2_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
-            
-            <select id="com3_rank" class="card-select"><option value="">- Flop 3 -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
-            <select id="com3_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
-        </div>
-        <div class="card-selector-group">
-            <select id="com4_rank" class="card-select"><option value="">- Turn -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
-            <select id="com4_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
-            
-            <select id="com5_rank" class="card-select"><option value="">- River -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
-            <select id="com5_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
-        </div>
-    </div>
-    
-    <button type="submit">Analizar Mano</button>
-</form>
-        </section>
+    <div class="form-section">
+        <label>Mesa (Opcional):</label>
+        <div class="card-selector-group">
+            <select id="com1_rank" class="card-select"><option value="">- Flop 1 -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
+            <select id="com1_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
+            
+            <select id="com2_rank" class="card-select"><option value="">- Flop 2 -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
+            <select id="com2_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
+            
+            <select id="com3_rank" class="card-select"><option value="">- Flop 3 -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
+            <select id="com3_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
+        </div>
+        <div class="card-selector-group">
+            <select id="com4_rank" class="card-select"><option value="">- Turn -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
+            <select id="com4_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
+            
+            <select id="com5_rank" class="card-select"><option value="">- River -</option><option value="A">A</option><option value="K">K</option><option value="Q">Q</option><option value="J">J</option><option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option></select>
+            <select id="com5_suit" class="card-select"><option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option><option value="♦">♦</option><option value="♣">♣</option></select>
+        </div>
+    </div>
+    
+    <button type="submit">Analizar Mano</button>
+        </form>
+        </section>
 
-        <section id="chart-panel" class="hidden">
-            <h2 id="chart-title">Resultado del Análisis</h2>
-            <div class="chart-container">
-                <canvas id="win-probability-chart"></canvas>
-            </div>
-            <p id="analysis-category">Categoría: -</p>
-        </section>
+        <section id="chart-panel" class="hidden">
+            <h2 id="chart-title">Resultado del Análisis</h2>
+            <div class="chart-container">
+                <canvas id="win-probability-chart"></canvas>
+            </div>
+            <p id="analysis-category">Categoría: -</p>
+        </section>
+        
+        <hr> 
 
-        <hr> <h1>Estadísticas Generales del Dataset</h1>
-        <section id="stats-panel">
-            <p id="loading-text">Cargando estadísticas...</p>
-            <div id="estadisticas"></div>
-        </section>
-        <section>
-            <button id="generar-dataset">Generar nuevo dataset</button>
-        </section>
-        </main>
-    <script type="module" src="dist/main.js"></script>
+                <h1>📊 Dashboard de Estadísticas Avanzadas</h1>
+        <div id="error-charts-panel" class="hidden error-panel">
+            <p>🔴 Error al cargar los gráficos del dashboard. Asegúrate de que el backend esté corriendo.</p>
+        </div>
+
+        <section id="charts-dashboard" class="grid-container">
+            <div class="chart-box">
+                <h2>1. Winrate por Posición (# Jugadores)</h2>
+                <canvas id="chart-winrate-posicion"></canvas>
+            </div>
+            <div class="chart-box">
+                <h2>2. Histograma de Botes Finales</h2>
+                <canvas id="chart-histograma-botes"></canvas>
+            </div>
+            <div class="chart-box">
+                <h2>3. Agresividad vs. Winrate</h2>
+                <canvas id="chart-agresividad-profit"></canvas>
+            </div>
+            <div class="chart-box">
+                <h2>4. Frecuencia de Categorías de Mano</h2>
+                <canvas id="chart-frecuencia-categorias"></canvas>
+            </div>
+            <div class="chart-box">
+                <h2>5. Riesgo vs. Winrate</h2>
+                <canvas id="chart-riesgo-winrate"></canvas>
+            </div>
+            <div class="chart-box">
+                <h2>6. Bote Promedio vs. Agresividad</h2>
+                <canvas id="chart-bote-agresividad"></canvas>
+            </div>
+            <div class="chart-box full-width">
+                <h2>7. Timeline de Profit Acumulado</h2>
+                <canvas id="chart-timeline-profit"></canvas>
+            </div>
+        </section>
+        <hr>
+                <h1>Estadísticas Generales del Dataset</h1>
+        <section id="stats-panel">
+            <p id="loading-text">Cargando estadísticas...</p>
+            <div id="error-panel" class="hidden">
+                <p>🔴 Error de conexión. Intenta generar un dataset.</p>
+            </div>
+            <div id="estadisticas"></div>
+        </section>
+        <section>
+            <button id="generar-dataset">Generar nuevo dataset</button>
+        </section>
+        </main>
+    <script type="module" src="dist/main.js"></script> 
 </body>
 </html>
