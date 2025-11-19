@@ -2,204 +2,193 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>PreFlopData – Estadísticas de Torneos de Póker</title>
-
-    <!-- ✔️ Chart.js agregado correctamente desde CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>PreFlopData – Análisis de Torneos de Póker</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-    <main>
-        <h1>Analizador de Manos</h1>
+<main>
 
-        <section id="interactive-panel">
-            <form id="hand-form">
-                <div class="form-section">
-                    <label>Tu Mano (Obligatorio):</label>
-                    <div class="card-selector-group">
+    <!-- =========================================
+         PANEL DE ESTADÍSTICAS GENERALES
+    ========================================== -->
+    <h1>📊 Estadísticas Generales del Dataset</h1>
 
-                        <select id="rank1" class="card-select" required>
-                            <option value="A">A</option><option value="K">K</option><option value="Q">Q</option>
-                            <option value="J">J</option><option value="10">10</option><option value="9">9</option>
-                            <option value="8">8</option><option value="7">7</option><option value="6">6</option>
-                            <option value="5">5</option><option value="4">4</option><option value="3">3</option>
-                            <option value="2">2</option>
-                        </select>
+    <section id="stats-panel">
+        <p id="loading-text">Cargando estadísticas...</p>
 
-                        <select id="suit1" class="card-select" required>
-                            <option value="♠">♠ (Picas)</option><option value="♥">♥ (Corazones)</option>
-                            <option value="♦">♦ (Diamantes)</option><option value="♣">♣ (Tréboles)</option>
-                        </select>
-
-                        <span class="card-separator">|</span>
-
-                        <select id="rank2" class="card-select" required>
-                            <option value="A">A</option><option value="K">K</option><option value="Q">Q</option>
-                            <option value="J">J</option><option value="10">10</option><option value="9">9</option>
-                            <option value="8">8</option><option value="7">7</option><option value="6">6</option>
-                            <option value="5">5</option><option value="4">4</option><option value="3">3</option>
-                            <option value="2">2</option>
-                        </select>
-
-                        <select id="suit2" class="card-select" required>
-                            <option value="♠">♠ (Picas)</option><option value="♥">♥ (Corazones)</option>
-                            <option value="♦">♦ (Diamantes)</option><option value="♣">♣ (Tréboles)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <label>Mesa (Opcional):</label>
-                    <div class="card-selector-group">
-                        <select id="com1_rank" class="card-select">
-                            <option value="">- Flop 1 -</option><option value="A">A</option><option value="K">K</option>
-                            <option value="Q">Q</option><option value="J">J</option><option value="10">10</option>
-                            <option value="9">9</option><option value="8">8</option><option value="7">7</option>
-                            <option value="6">6</option><option value="5">5</option><option value="4">4</option>
-                            <option value="3">3</option><option value="2">2</option>
-                        </select>
-
-                        <select id="com1_suit" class="card-select">
-                            <option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option>
-                            <option value="♦">♦</option><option value="♣">♣</option>
-                        </select>
-
-                        <select id="com2_rank" class="card-select">
-                            <option value="">- Flop 2 -</option><option value="A">A</option><option value="K">K</option>
-                            <option value="Q">Q</option><option value="J">J</option><option value="10">10</option>
-                            <option value="9">9</option><option value="8">8</option><option value="7">7</option>
-                            <option value="6">6</option><option value="5">5</option><option value="4">4</option>
-                            <option value="3">3</option><option value="2">2</option>
-                        </select>
-
-                        <select id="com2_suit" class="card-select">
-                            <option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option>
-                            <option value="♦">♦</option><option value="♣">♣</option>
-                        </select>
-
-                        <select id="com3_rank" class="card-select">
-                            <option value="">- Flop 3 -</option><option value="A">A</option><option value="K">K</option>
-                            <option value="Q">Q</option><option value="J">J</option><option value="10">10</option>
-                            <option value="9">9</option><option value="8">8</option><option value="7">7</option>
-                            <option value="6">6</option><option value="5">5</option><option value="4">4</option>
-                            <option value="3">3</option><option value="2">2</option>
-                        </select>
-
-                        <select id="com3_suit" class="card-select">
-                            <option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option>
-                            <option value="♦">♦</option><option value="♣">♣</option>
-                        </select>
-                    </div>
-
-                    <div class="card-selector-group">
-                        <select id="com4_rank" class="card-select">
-                            <option value="">- Turn -</option><option value="A">A</option><option value="K">K</option>
-                            <option value="Q">Q</option><option value="J">J</option><option value="10">10</option>
-                            <option value="9">9</option><option value="8">8</option><option value="7">7</option>
-                            <option value="6">6</option><option value="5">5</option><option value="4">4</option>
-                            <option value="3">3</option><option value="2">2</option>
-                        </select>
-
-                        <select id="com4_suit" class="card-select">
-                            <option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option>
-                            <option value="♦">♦</option><option value="♣">♣</option>
-                        </select>
-
-                        <select id="com5_rank" class="card-select">
-                            <option value="">- River -</option><option value="A">A</option><option value="K">K</option>
-                            <option value="Q">Q</option><option value="J">J</option><option value="10">10</option>
-                            <option value="9">9</option><option value="8">8</option><option value="7">7</option>
-                            <option value="6">6</option><option value="5">5</option><option value="4">4</option>
-                            <option value="3">3</option><option value="2">2</option>
-                        </select>
-
-                        <select id="com5_suit" class="card-select">
-                            <option value="">- Pinta -</option><option value="♠">♠</option><option value="♥">♥</option>
-                            <option value="♦">♦</option><option value="♣">♣</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit">Analizar Mano</button>
-            </form>
-        </section>
-
-        <section id="chart-panel" class="hidden">
-            <h2 id="chart-title">Resultado del Análisis</h2>
-            <div class="chart-container">
-                <canvas id="win-probability-chart"></canvas>
-            </div>
-            <p id="analysis-category">Categoría: -</p>
-        </section>
-
-        <hr>
-
-        <h1>📊 Dashboard de Estadísticas Avanzadas</h1>
-
-        <div id="error-charts-panel" class="hidden error-panel">
-            <p>🔴 Error al cargar los gráficos del dashboard. Asegúrate de que el backend esté corriendo.</p>
+        <div id="error-panel" class="hidden">
+            <p>🔴 Error de conexión. Intenta generar un dataset.</p>
         </div>
 
-        <section id="charts-dashboard" class="grid-container">
-            <div class="chart-box">
-                <h2>1. Winrate por Posición (# Jugadores)</h2>
-                <canvas id="chart-winrate-posicion"></canvas>
+        <div id="estadisticas"></div>
+    </section>
+
+    <section>
+        <button id="generar-dataset">Generar nuevo dataset</button>
+    </section>
+
+    <hr>
+
+    <!-- =========================================
+         ANALIZADOR DE MANOS FASE POR FASE
+    ========================================== -->
+    <h1>🃏 Analizador de Manos por Fases</h1>
+
+    <section id="interactive-panel">
+        <form id="hand-form">
+
+            <!-- Selección de mano inicial -->
+            <div class="form-section">
+                <label>Tu Mano Inicial (Preflop):</label>
+                <div class="card-selector-group">
+                    <!-- Carta 1 -->
+                    <select id="rank1" class="card-select rank-select">
+                        <option>A</option><option>K</option><option>Q</option><option>J</option>
+                        <option>10</option><option>9</option><option>8</option><option>7</option>
+                        <option>6</option><option>5</option><option>4</option><option>3</option><option>2</option>
+                    </select>
+                    <select id="suit1" class="card-select">
+                        <option>♠</option><option>♥</option><option>♦</option><option>♣</option>
+                    </select>
+
+                    <span class="card-separator">|</span>
+
+                    <!-- Carta 2 -->
+                    <select id="rank2" class="card-select rank-select">
+                        <option>A</option><option>K</option><option>Q</option><option>J</option>
+                        <option>10</option><option>9</option><option>8</option><option>7</option>
+                        <option>6</option><option>5</option><option>4</option><option>3</option><option>2</option>
+                    </select>
+                    <select id="suit2" class="card-select">
+                        <option>♠</option><option>♥</option><option>♦</option><option>♣</option>
+                    </select>
+                </div>
+                <small>El sistema bloqueará combinaciones duplicadas como A♠ A♠.</small>
             </div>
 
-            <div class="chart-box">
-                <h2>2. Histograma de Botes Finales</h2>
-                <canvas id="chart-histograma-botes"></canvas>
+            <!-- Posición -->
+            <div class="form-section">
+                <label>Posición del jugador:</label>
+                <select id="posicion" class="card-select">
+                    <option value="UTG">UTG</option>
+                    <option value="UTG+1">UTG+1</option>
+                    <option value="MP">MP</option>
+                    <option value="LJ">LJ</option>
+                    <option value="HJ">HJ</option>
+                    <option value="CO">CO</option>
+                    <option value="BTN">BTN</option>
+                    <option value="SB">SB</option>
+                    <option value="BB">BB</option>
+                </select>
             </div>
 
-            <div class="chart-box">
-                <h2>3. Agresividad vs. Winrate</h2>
-                <canvas id="chart-agresividad-profit"></canvas>
-            </div>
+            <button type="submit">Analizar Mano por Fases</button>
+        </form>
+    </section>
 
-            <div class="chart-box">
-                <h2>4. Frecuencia de Categorías de Mano</h2>
-                <canvas id="chart-frecuencia-categorias"></canvas>
-            </div>
+    <!-- RESULTADO DEL ANÁLISIS POR FASES -->
+    <section id="phases-panel" class="hidden">
 
-            <div class="chart-box">
-                <h2>5. Riesgo vs. Winrate</h2>
-                <canvas id="chart-riesgo-winrate"></canvas>
-            </div>
+        <!-- Gráfico de equity -->
+        <h2>📈 Evolución de la Equity por Fase</h2>
+        <div class="chart-container">
+            <canvas id="equity-phase-chart"></canvas>
+        </div>
 
-            <div class="chart-box">
-                <h2>6. Bote Promedio vs. Agresividad</h2>
-                <canvas id="chart-bote-agresividad"></canvas>
-            </div>
+        <!-- PRE-FLOP -->
+        <div class="analysis-card">
+            <h3>🂡 Fase Preflop</h3>
+            <p><strong>Tu mano:</strong> <span id="preflop-hand-text">-</span></p>
+            <p><strong>Categoría estimada:</strong> <span id="preflop-category">-</span></p>
+            <p><strong>Equity vs rango estándar:</strong> <span id="preflop-equity">-</span>%</p>
+            <p><strong>Recomendación:</strong> <span id="preflop-rec">-</span></p>
+        </div>
 
-            <div class="chart-box full-width">
-                <h2>7. Timeline de Profit Acumulado</h2>
-                <canvas id="chart-timeline-profit"></canvas>
-            </div>
-        </section>
+        <!-- FLOP -->
+        <div class="analysis-card">
+            <h3>🃏 Fase Flop</h3>
+            <p><strong>Cartas del flop:</strong> <span id="flop-cards">-</span></p>
+            <p><strong>Categoría actual:</strong> <span id="flop-category">-</span></p>
+            <p><strong>Equity:</strong> <span id="flop-equity">-</span>%</p>
+            <p><strong>Outs:</strong> <span id="flop-outs-count">-</span></p>
+            <p><strong>Cartas que mejoran:</strong> <span id="flop-outs-list">-</span></p>
+            <p><strong>Recomendación:</strong> <span id="flop-rec">-</span></p>
+        </div>
 
-        <hr>
+        <!-- TURN -->
+        <div class="analysis-card">
+            <h3>🎴 Fase Turn</h3>
+            <p><strong>Carta del turn:</strong> <span id="turn-card">-</span></p>
+            <p><strong>Categoría actual:</strong> <span id="turn-category">-</span></p>
+            <p><strong>Equity:</strong> <span id="turn-equity">-</span>%</p>
+            <p><strong>Outs:</strong> <span id="turn-outs-count">-</span></p>
+            <p><strong>Cartas que mejoran:</strong> <span id="turn-outs-list">-</span></p>
+            <p><strong>Recomendación:</strong> <span id="turn-rec">-</span></p>
+        </div>
 
-        <h1>Estadísticas Generales del Dataset</h1>
+        <!-- RIVER -->
+        <div class="analysis-card">
+            <h3>🂠 Fase River</h3>
+            <p><strong>Carta del river:</strong> <span id="river-card">-</span></p>
+            <p><strong>Categoría final:</strong> <span id="river-category">-</span></p>
+            <p><strong>Equity final:</strong> <span id="river-equity">-</span>%</p>
+            <p><strong>Recomendación:</strong> <span id="river-rec">-</span></p>
+        </div>
 
-        <section id="stats-panel">
-            <p id="loading-text">Cargando estadísticas...</p>
+        <!-- CONTEXTO -->
+        <div class="analysis-card">
+            <h3>📍 Contexto</h3>
+            <p><strong>Posición analizada:</strong> <span id="posicion-analizada">-</span></p>
+            <p><strong>Cartas finales simuladas:</strong> <span id="final-cards">-</span></p>
+        </div>
 
-            <div id="error-panel" class="hidden">
-                <p>🔴 Error de conexión. Intenta generar un dataset.</p>
-            </div>
+        <!-- NUEVO: ANÁLISIS GENERAL -->
+        <div class="analysis-card">
+            <h3>🧠 Análisis General</h3>
+            <p id="resumen-general">-</p>
+        </div>
 
-            <div id="estadisticas"></div>
-        </section>
+        <!-- NUEVO: RECOMENDACIÓN FINAL -->
+        <div class="analysis-card">
+            <h3>🔥 Recomendación Final</h3>
+            <p id="recomendacion-final">-</p>
+        </div>
 
-        <section>
-            <button id="generar-dataset">Generar nuevo dataset</button>
-        </section>
+    </section>
 
-    </main>
+    <hr>
 
-    <!-- ✔️ main.js cargado como módulo (correcto) -->
-    <script type="module" src="dist/main.js"></script>
+    <!-- =========================================
+         GRÁFICOS DEL DATASET
+    ========================================== -->
+    <h1>📈 Exploración Gráfica del Dataset</h1>
+
+    <section id="chart-selector">
+        <label>Selecciona un gráfico:</label>
+        <select id="chart-chooser">
+            <option value="winrate-posicion">Winrate por posición</option>
+            <option value="histograma-botes">Histograma de botes</option>
+            <option value="agresividad-profit">Agresividad vs Winrate</option>
+            <option value="frecuencia-categorias">Frecuencia de manos</option>
+            <option value="riesgo-winrate">Riesgo vs Winrate</option>
+            <option value="bote-agresividad">Bote promedio según agresividad</option>
+            <option value="timeline-profit">Profit acumulado en el tiempo</option>
+        </select>
+    </section>
+
+    <section id="chart-viewer">
+        <h2 id="chart-viewer-title"></h2>
+        <p id="chart-description"></p>
+        <canvas id="chart-canvas" width="600" height="350"></canvas>
+    </section>
+
+</main>
+
+<script type="module" src="dist/main.js"></script>
 
 </body>
 </html>

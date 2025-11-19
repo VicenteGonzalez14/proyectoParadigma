@@ -52,3 +52,81 @@ button:focus {
     outline: 2px solid #2088c8;
 }
 
+.analysis-text {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+#analysis-outs p {
+    margin: 4px 0;
+}
+
+.analysis-card {
+    background: #1e1f26;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1px solid #3a3b42;
+    color: #e3e3e3;
+}
+
+.analysis-card h3 {
+    margin-bottom: 5px;
+    color: #20b6c8;
+}
+
+#analysis-category {
+    font-size: 1.3rem;
+    margin-top: 15px;
+    color: #ffd166;
+}
+
+.analysis-block, .result-block {
+    background: #1e1e1e;
+    padding: 18px;
+    margin: 15px 0;
+    border-radius: 10px;
+    border: 1px solid #3a3a3a;
+}
+
+.analyze-button {
+    margin-top: 12px;
+    padding: 12px 20px;
+    background: #0074ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.analyze-button:hover {
+    background: #005dda;
+}
+
+#analysis-results.hidden {
+    display: none;
+}
+
+#analysis-results {
+    margin-top: 25px;
+}
+
+.result-block h2 {
+    color: #00d4ff;
+}
+
+.card-select {
+    padding: 8px;
+    font-size: 16px;
+}
+
+.position-select {
+    width: 150px;
+}
+
+.card-separator {
+    margin: 0 8px;
+    font-weight: bold;
+}

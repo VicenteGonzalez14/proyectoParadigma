@@ -1,196 +1,232 @@
 import pandas as pd
+import numpy as np
+from collections import Counter
 from .process import cargar_dataset
 
-def calcular_estadisticas_basicas():
-    """Calcula estadísticas simples del dataset cargado."""
+POSICIONES_ORDEN = ["UTG", "UTG+1", "MP", "LJ", "HJ", "CO", "BTN", "SB", "BB"]
+
+
+# =====================================================
+# 1. ESTADÍSTICAS GENERALES
+# =====================================================
+def estadisticas_generales():
     df = cargar_dataset()
+
+    if df.empty:
+        return {
+            "total_manos": 0,
+            "ganadas": 0,
+            "perdidas": 0,
+            "tasa_victoria": 0.0,
+            "bote_promedio": 0.0,
+            "agresividad_media": 0.0,
+            "riesgo_medio": 0.0,
+            "total_ganado": 0,
+            "total_perdido": 0,
+            "profit_neto": 0,
+            "promedio_ganado": 0,
+            "promedio_perdido": 0
+        }
 
     total_manos = len(df)
     total_ganadas = (df["resultado_usuario"] == "gano").sum()
     total_perdidas = (df["resultado_usuario"] == "perdio").sum()
-    tasa_victoria = round(total_ganadas / total_manos * 100, 2) if total_manos > 0 else 0
 
-    bote_promedio = round(df["bote_final"].mean(), 2) if "bote_final" in df.columns else 0
-    agresividad_media = round(df["puntos_estrategia.agresividad"].mean(), 2)
-    riesgo_medio = round(df["puntos_estrategia.riesgo"].mean(), 2)
+    tasa_victoria = round(total_ganadas / total_manos * 100, 2)
 
-    resumen = {
+    bote_promedio = round(df["bote_final"].mean(), 2)
+
+    # COLUMNA CORRECTA DESDE JSON NORMALIZADO
+    agresividad_media = round(df["puntos_estrategia.agresividad"].mean(), 3)
+    riesgo_medio      = round(df["puntos_estrategia.riesgo"].mean(), 3)
+
+    ganancias = df["ganancia_usuario"]
+    total_ganado = ganancias[ganancias > 0].sum()
+    total_perdido = -ganancias[ganancias < 0].sum()
+    profit_neto = total_ganado - total_perdido
+
+    promedio_ganado = round(ganancias[ganancias > 0].mean(), 2) if (ganancias > 0).any() else 0
+    promedio_perdido = round((-ganancias[ganancias < 0]).mean(), 2) if (ganancias < 0).any() else 0
+
+    return {
         "total_manos": int(total_manos),
         "ganadas": int(total_ganadas),
         "perdidas": int(total_perdidas),
         "tasa_victoria": tasa_victoria,
         "bote_promedio": bote_promedio,
         "agresividad_media": agresividad_media,
-        "riesgo_medio": riesgo_medio
+        "riesgo_medio": riesgo_medio,
+        "total_ganado": int(total_ganado),
+        "total_perdido": int(total_perdido),
+        "profit_neto": int(profit_neto),
+        "promedio_ganado": promedio_ganado,
+        "promedio_perdido": promedio_perdido
     }
 
-    print("📈 Estadísticas básicas calculadas:")
-    for k, v in resumen.items():
-        print(f" - {k}: {v}")
+def calcular_estadisticas_basicas():
+    return estadisticas_generales()
 
-    return resumen
 
-# =============================================
-# 1. WINRATE POR POSICIÓN
-# =============================================
+# =====================================================
+# 2. WINRATE POR POSICIÓN
+# =====================================================
 def winrate_por_posicion():
-    """
-    Calcula el winrate agrupado por posición.
-    Como el dataset no tiene una columna "posicion", generamos una derivada:
-        posición = número de jugadores en la mesa
-    """
     df = cargar_dataset()
+    if df.empty:
+        return []
 
-    # Crear posición derivada
-    df["posicion"] = df["jugadores_mesa"].apply(lambda x: len(x))
     df["victoria"] = (df["resultado_usuario"] == "gano").astype(int)
 
+    # Convertir posiciones numéricas (CSV) a nombres (JSON)
+    if pd.api.types.is_numeric_dtype(df["posicion_usuario"]):
+        df["posicion_nombre"] = df["posicion_usuario"].apply(
+            lambda i: POSICIONES_ORDEN[int(i)] if int(i) < len(POSICIONES_ORDEN) else "N/A"
+        )
+    else:
+        df["posicion_nombre"] = df["posicion_usuario"]
+
     tabla = (
-        df.groupby("posicion")["victoria"]
+        df.groupby("posicion_nombre")["victoria"]
         .agg(["mean", "count"])
         .reset_index()
-        .rename(columns={"mean": "winrate", "count": "hands"})
     )
 
-    tabla["winrate"] = (tabla["winrate"] * 100).round(2)
+    # Orden lógico
+    tabla["orden"] = tabla["posicion_nombre"].apply(lambda x: POSICIONES_ORDEN.index(x) if x in POSICIONES_ORDEN else 99)
+    tabla = tabla.sort_values("orden")
 
-    return tabla.to_dict(orient="records")
+    return [
+        {
+            "posicion": row["posicion_nombre"],
+            "winrate": round(row["mean"] * 100, 2),
+            "hands": int(row["count"]),
+        }
+        for _, row in tabla.iterrows()
+    ]
 
 
-# =============================================
-# 2. HISTOGRAMA DE BOTES
-# =============================================
-def histograma_botes(bins=10):
-    """
-    Devuelve un histograma del tamaño de bote final.
-    """
+# =====================================================
+# 3. HISTOGRAMA DE BOTES
+# =====================================================
+def histograma_botes():
     df = cargar_dataset()
+    if df.empty:
+        return {"bins": [], "counts": []}
 
-    cortes = pd.cut(df["bote_final"], bins=bins)
-    counts = cortes.value_counts(sort=False)
-
-    return {
-        "bins": counts.index.astype(str).tolist(),
-        "counts": counts.values.tolist()
-    }
+    counts, bins = np.histogram(df["bote_final"], bins=10)
+    return {"bins": bins.tolist(), "counts": counts.tolist()}
 
 
-# =============================================
-# 3. AGRESIVIDAD VS PROFIT
-# =============================================
-def agresividad_vs_profit():
-    """
-    Relación entre agresividad y probabilidad de ganar.
-    Usa buckets de agresividad y calcula winrate promedio por bucket.
-    """
-
+# =====================================================
+# 4. AGRESIVIDAD VS WINRATE
+# =====================================================
+def agresividad_profit():
     df = cargar_dataset()
+    if df.empty:
+        return []
 
-    df["agresividad"] = df["puntos_estrategia.agresividad"]
+    col_aggr = "puntos_estrategia.agresividad" if "puntos_estrategia.agresividad" in df else "agresividad"
+
     df["victoria"] = (df["resultado_usuario"] == "gano").astype(int)
-
-    buckets = pd.qcut(df["agresividad"], q=5, duplicates="drop")
-
-    tabla = (
-        df.groupby(buckets)
-        .agg(
-            agresividad_promedio=("agresividad", "mean"),
-            winrate_promedio=("victoria", "mean")
-        )
-        .reset_index()
+    df["agresividad_rango"] = pd.cut(
+        df[col_aggr],
+        bins=5,
+        labels=["Muy baja", "Baja", "Media", "Alta", "Muy alta"]
     )
 
-    tabla["winrate_promedio"] = (tabla["winrate_promedio"] * 100).round(2)
-    tabla["agresividad_promedio"] = tabla["agresividad_promedio"].round(2)
+    resultados = []
+    for label, serie in df.groupby("agresividad_rango")["victoria"]:
+        resultados.append({
+            "label": str(label),
+            "winrate_promedio": round(serie.mean() * 100, 2)
+        })
 
-    tabla["label"] = tabla["agresividad"].astype(str)
-
-    return tabla[["label", "agresividad_promedio", "winrate_promedio"]].to_dict(orient="records")
+    return resultados
 
 
-# =============================================
-# 4. FRECUENCIA DE CATEGORÍAS DE MANO
-# =============================================
+# =====================================================
+# 5. FRECUENCIA POR CATEGORÍA
+# =====================================================
 def frecuencia_categorias():
-    """
-    Cuenta cuántas veces aparece cada categoría de mano.
-    Perfecto para gráficos de barra o torta.
-    """
     df = cargar_dataset()
+    if df.empty:
+        return []
 
-    tabla = (
-        df["categoria_mano_usuario"]
-        .value_counts()
-        .rename_axis("categoria")
-        .reset_index(name="cantidad")
-    )
+    col = "categoria_mano_usuario" if "categoria_mano_usuario" in df else "categoria_mano"
+    conteo = Counter(df[col])
 
-    return tabla.to_dict(orient="records")
+    return [{"categoria": c, "cantidad": int(n)} for c, n in conteo.items()]
 
-# =============================================
-# 5. RIESGO VS WINRATE
-# =============================================
-def riesgo_vs_winrate():
+
+# =====================================================
+# 6. RIESGO VS WINRATE
+# =====================================================
+def riesgo_winrate():
     df = cargar_dataset()
+    if df.empty:
+        return []
 
-    df["riesgo"] = df["puntos_estrategia.riesgo"]
+    col_risk = "puntos_estrategia.riesgo" if "puntos_estrategia.riesgo" in df else "riesgo"
+
     df["victoria"] = (df["resultado_usuario"] == "gano").astype(int)
-
-    grouped = (
-        df.groupby(pd.qcut(df["riesgo"], q=5, duplicates="drop"))
-        .agg(
-            riesgo_promedio=("riesgo", "mean"),
-            winrate_promedio=("victoria", "mean")
-        )
-        .reset_index()
+    df["riesgo_rango"] = pd.cut(
+        df[col_risk],
+        bins=5,
+        labels=["Muy bajo", "Bajo", "Medio", "Alto", "Muy alto"]
     )
 
-    grouped["riesgo_promedio"] = grouped["riesgo_promedio"].round(2)
-    grouped["winrate_promedio"] = (grouped["winrate_promedio"] * 100).round(2)
+    resultados = []
+    for label, serie in df.groupby("riesgo_rango")["victoria"]:
+        resultados.append({
+            "label": str(label),
+            "winrate_promedio": round(serie.mean() * 100, 2)
+        })
 
-    grouped["label"] = grouped["riesgo"].astype(str)
-
-    return grouped[["label", "riesgo_promedio", "winrate_promedio"]].to_dict(orient="records")
+    return resultados
 
 
-# =============================================
-# 6. BOTE FINAL VS AGRESIVIDAD
-# =============================================
-def bote_vs_agresividad():
+# =====================================================
+# 7. BOTE VS AGRESIVIDAD
+# =====================================================
+def bote_agresividad():
     df = cargar_dataset()
+    if df.empty:
+        return []
 
-    df["agresividad"] = df["puntos_estrategia.agresividad"]
+    col_aggr = "puntos_estrategia.agresividad" if "puntos_estrategia.agresividad" in df else "agresividad"
 
-    grouped = (
-        df.groupby(pd.qcut(df["agresividad"], q=5, duplicates="drop"))
-        .agg(
-            agresividad_promedio=("agresividad", "mean"),
-            bote_promedio=("bote_final", "mean")
-        )
-        .reset_index()
+    df["agresividad_rango"] = pd.cut(
+        df[col_aggr],
+        bins=5,
+        labels=["Muy baja", "Baja", "Media", "Alta", "Muy alta"]
     )
 
-    grouped["agresividad_promedio"] = grouped["agresividad_promedio"].round(2)
-    grouped["bote_promedio"] = grouped["bote_promedio"].round(2)
+    return [
+        {
+            "label": str(label),
+            "bote_promedio": round(serie.mean(), 2)
+        }
+        for label, serie in df.groupby("agresividad_rango")["bote_final"]
+    ]
 
-    grouped["label"] = grouped["agresividad"].astype(str)
 
-    return grouped[["label", "agresividad_promedio", "bote_promedio"]].to_dict(orient="records")
-
-
-# =============================================
-# 7. PROFIT TIMELINE (GANANCIA ACUMULADA)
-# =============================================
+# =====================================================
+# 8. PROFIT ACUMULADO
+# =====================================================
 def timeline_profit():
     df = cargar_dataset()
+    if df.empty:
+        return {"mano_id": [], "profit_acumulado": []}
 
-    # Convertimos "gano"/"perdio" a profit real (1 o -1)
-    df["profit"] = df["resultado_usuario"].apply(lambda x: 1 if x == "gano" else -1)
+    if "ganancia_usuario" in df:
+        df["profit"] = df["ganancia_usuario"]
+    else:
+        df["profit"] = df.apply(lambda r: r["bote_final"] if r["resultado_usuario"] == "gano" else -r["bote_final"], axis=1)
 
     df = df.sort_values("mano_id")
     df["profit_acumulado"] = df["profit"].cumsum()
 
     return {
         "mano_id": df["mano_id"].tolist(),
-        "profit_acumulado": df["profit_acumulado"].tolist()
+        "profit_acumulado": df["profit_acumulado"].tolist(),
     }

@@ -1,107 +1,155 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
+# ==========================
+# IMPORTAR UTILIDADES
+# ==========================
 from utils.generator import generar_dataset
-from utils.analyzer import analizar_mano_usuario
-
+from utils.analyzer import analizar_mano_fases
 from utils.stats import (
-    calcular_estadisticas_basicas,
+    estadisticas_generales,
     winrate_por_posicion,
     histograma_botes,
-    agresividad_vs_profit,
+    agresividad_profit,
     frecuencia_categorias,
-    riesgo_vs_winrate,
-    bote_vs_agresividad,
-    timeline_profit
+    riesgo_winrate,
+    bote_agresividad,
+    timeline_profit,
 )
 
+# ==========================
+# CONFIGURACIÓN FLASK
+# ==========================
 app = Flask(__name__)
-CORS(app)
 
-# ======================================
-# RUTA PRINCIPAL
-# ======================================
+# CORS completamente abierto
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+
+# ==========================
+# HOME
+# ==========================
 @app.route("/")
 def home():
     return jsonify({"mensaje": "Servidor Flask funcionando correctamente."})
 
 
-# ======================================
-# GENERAR DATASET
-# ======================================
+# ==========================
+# DATASET
+# ==========================
 @app.route("/api/generar", methods=["POST"])
 def generar():
     data = request.get_json() or {}
-    num = data.get("num_manos", 5000)
-    print(f"📦 Solicitud para generar dataset con {num} manos...")
-    resultado = generar_dataset(num)
-    print("✅ Dataset generado")
-    return jsonify(resultado)
+    num_manos = data.get("num_manos", 5000)
+
+    generar_dataset(num_manos=num_manos)
+
+    response = jsonify({"mensaje": "Dataset generado", "num_manos": num_manos})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
-# ======================================
-# ESTADÍSTICAS BÁSICAS
-# ======================================
+# ==========================
+# ESTADÍSTICAS
+# ==========================
 @app.route("/api/estadisticas", methods=["GET"])
-def estadisticas():
-    return jsonify(calcular_estadisticas_basicas())
+def stats():
+    data = estadisticas_generales()
+
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
-# ======================================
-# ANALIZAR MANO
-# ======================================
+# ==========================
+# ANALIZADOR — *PREVIO* (tu versión antigua)
+# ==========================
 @app.route("/api/analizar", methods=["POST"])
-def analizar_mano():
-    datos_mano = request.get_json()
-    if not datos_mano:
-        return jsonify({"error": "No se recibieron datos"}), 400
+def analizar():
+    req = request.get_json()
+    result = analizar_mano_fases(req)
 
-    resultado = analizar_mano_usuario(datos_mano)
-
-    if "error" in resultado:
-        return jsonify(resultado), 400
-
-    return jsonify(resultado)
+    response = jsonify(result)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
-# ======================================
-# ENDPOINTS GRÁFICOS (EP3 / EF3)
-# ======================================
+# ==========================
+# ANALIZAR FASE POR FASE — NUEVO
+# ==========================
+@app.route("/api/analizar-fases", methods=["POST", "OPTIONS"])
+def analizar_fases():
+    # --- Responder preflight CORS ---
+    if request.method == "OPTIONS":
+        response = jsonify({"status": "ok"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "*")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+        return response, 200
+
+    # --- Procesar POST normal ---
+    req = request.get_json()
+    result = analizar_mano_fases(req)
+
+    response = jsonify(result)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+
+# ==========================
+# GRÁFICOS
+# ==========================
 @app.route("/api/charts/winrate-posicion", methods=["GET"])
-def chart_winrate_posicion():
-    return jsonify(winrate_por_posicion())
+def api_winrate_posicion():
+    response = jsonify(winrate_por_posicion())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.route("/api/charts/histograma-botes", methods=["GET"])
-def chart_histograma_botes():
-    bins = request.args.get("bins", default=10, type=int)
-    return jsonify(histograma_botes(bins))
+def api_histograma_botes():
+    response = jsonify(histograma_botes())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.route("/api/charts/agresividad-profit", methods=["GET"])
-def chart_agresividad_profit():
-    return jsonify(agresividad_vs_profit())
+def api_agresividad_profit():
+    response = jsonify(agresividad_profit())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.route("/api/charts/frecuencia-categorias", methods=["GET"])
-def chart_frecuencia():
-    return jsonify(frecuencia_categorias())
+def api_frecuencia_categorias():
+    response = jsonify(frecuencia_categorias())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.route("/api/charts/riesgo-winrate", methods=["GET"])
-def chart_riesgo():
-    return jsonify(riesgo_vs_winrate())
+def api_riesgo_winrate():
+    response = jsonify(riesgo_winrate())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.route("/api/charts/bote-agresividad", methods=["GET"])
-def chart_bote_agres():
-    return jsonify(bote_vs_agresividad())
+def api_bote_agresividad():
+    response = jsonify(bote_agresividad())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.route("/api/charts/timeline-profit", methods=["GET"])
-def chart_timeline():
-    return jsonify(timeline_profit())
+def api_timeline_profit():
+    response = jsonify(timeline_profit())
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
+# ==========================
+# MAIN
+# ==========================
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="127.0.0.1", port=5000)

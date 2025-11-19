@@ -1,81 +1,183 @@
-const API_BASE = "http://127.0.0.1:5000/api";
+const BASE_URL = "http://127.0.0.1:5000/api";
 
-export async function obtenerEstadisticas(): Promise<any> {
-    const resp = await fetch(`${API_BASE}/estadisticas`);
-    if (!resp.ok) throw new Error("No se pudo conectar con el backend");
-    return await resp.json();
-}
-
-export async function generarDataset(): Promise<any> {
-    const resp = await fetch(`${API_BASE}/generar`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({num_manos: 5000})
+async function fetchJSON(url: string, options: any = {}) {
+    const res = await fetch(url, {
+        headers: { "Content-Type": "application/json" },
+        ...options
     });
-    if (!resp.ok) throw new Error("No se pudo generar dataset");
-    return await resp.json();
+
+    if (!res.ok) throw new Error(`Error en la solicitud: ${url}`);
+    return res.json();
 }
 
-export async function analizarMano(cartas_usuario: string[], cartas_comunitarias: string[]): Promise<any> {
+/* ============================================================
+   ESTADÍSTICAS GENERALES
+============================================================ */
+export async function obtenerEstadisticas() {
+    return fetchJSON(`${BASE_URL}/estadisticas`);
+}
 
-    const payload = {
-        cartas_usuario: cartas_usuario,
-        cartas_comunitarias: cartas_comunitarias,
-        n_rivales: 3 // Podrías añadir un input para esto luego
+export async function generarDataset() {
+    return fetchJSON(`${BASE_URL}/generar`, {
+        method: "POST",
+        body: JSON.stringify({})
+    });
+}
+
+/* ============================================================
+   ANALIZADOR POR FASES
+============================================================ */
+export async function analizarMano(payload: {
+    cartas_usuario: string[];
+    cartas_comunitarias?: string[];   // ahora OPCIONAL pero permitido
+    posicion: string;
+}) {
+    // aseguramos que nunca vaya undefined
+    const fixedPayload = {
+        cartas_usuario: payload.cartas_usuario,
+        cartas_comunitarias: payload.cartas_comunitarias ?? [],
+        posicion: payload.posicion
     };
 
-    const resp = await fetch(`${API_BASE}/analizar`, {
+    return fetchJSON(`${BASE_URL}/analizar`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(payload)
+        body: JSON.stringify(fixedPayload)
     });
-
-    // Manejo de errores mejorado
-    if (!resp.ok) {
-        const errData = await resp.json(); // Lee el error que envía el backend
-        throw new Error(errData.error || "No se pudo analizar la mano");
-    }
-    return await resp.json();
 }
 
-export async function obtenerWinratePosicion(): Promise<any> {
-    const resp = await fetch(`${API_BASE}/charts/winrate-posicion`);
-    if (!resp.ok) throw new Error("Error al obtener Winrate por Posición");
-    return await resp.json();
+/* ============================================================
+   GRÁFICOS – FORMATO COMPATIBLE CON CHART.JS
+============================================================ */
+
+export async function obtenerWinratePosicion() {
+    const data = await fetchJSON(`${BASE_URL}/charts/winrate-posicion`);
+
+    return {
+        tipo: "bar",
+        chart: {
+            data: {
+                labels: data.map((x: any) => x.posicion),
+                datasets: [{
+                    label: "Winrate %",
+                    data: data.map((x: any) => x.winrate),
+                    backgroundColor: "#3498db"
+                }]
+            },
+            options: { responsive: true }
+        }
+    };
 }
 
-export async function obtenerHistogramaBotes(bins: number = 10): Promise<any> {
-    const resp = await fetch(`${API_BASE}/charts/histograma-botes?bins=${bins}`);
-    if (!resp.ok) throw new Error("Error al obtener Histograma de Botes");
-    return await resp.json();
+export async function obtenerHistogramaBotes() {
+    const data = await fetchJSON(`${BASE_URL}/charts/histograma-botes`);
+
+    return {
+        tipo: "bar",
+        chart: {
+            data: {
+                labels: data.bins.map((b: number) => b.toFixed(0)),
+                datasets: [{
+                    label: "Frecuencia",
+                    data: data.counts,
+                    backgroundColor: "#9b59b6"
+                }]
+            },
+            options: { responsive: true }
+        }
+    };
 }
 
-export async function obtenerAgresividadProfit(): Promise<any> {
-    const resp = await fetch(`${API_BASE}/charts/agresividad-profit`);
-    if (!resp.ok) throw new Error("Error al obtener Agresividad vs Profit");
-    return await resp.json();
+export async function obtenerAgresividadProfit() {
+    const data = await fetchJSON(`${BASE_URL}/charts/agresividad-profit`);
+
+    return {
+        tipo: "bar",
+        chart: {
+            data: {
+                labels: data.map((x: any) => x.label),
+                datasets: [{
+                    label: "Winrate %",
+                    data: data.map((x: any) => x.winrate_promedio),
+                    backgroundColor: "#1abc9c"
+                }]
+            },
+            options: { responsive: true }
+        }
+    };
 }
 
-export async function obtenerFrecuenciaCategorias(): Promise<any> {
-    const resp = await fetch(`${API_BASE}/charts/frecuencia-categorias`);
-    if (!resp.ok) throw new Error("Error al obtener Frecuencia de Categorías");
-    return await resp.json();
+export async function obtenerFrecuenciaCategorias() {
+    const data = await fetchJSON(`${BASE_URL}/charts/frecuencia-categorias`);
+
+    return {
+        tipo: "bar",
+        chart: {
+            data: {
+                labels: data.map((x: any) => x.categoria),
+                datasets: [{
+                    label: "Cantidad",
+                    data: data.map((x: any) => x.cantidad),
+                    backgroundColor: "#f1c40f"
+                }]
+            },
+            options: { responsive: true }
+        }
+    };
 }
 
-export async function obtenerRiesgoWinrate(): Promise<any> {
-    const resp = await fetch(`${API_BASE}/charts/riesgo-winrate`);
-    if (!resp.ok) throw new Error("Error al obtener Riesgo vs Winrate");
-    return await resp.json();
+export async function obtenerRiesgoWinrate() {
+    const data = await fetchJSON(`${BASE_URL}/charts/riesgo-winrate`);
+
+    return {
+        tipo: "line",
+        chart: {
+            data: {
+                labels: data.map((x: any) => x.label),
+                datasets: [{
+                    label: "Winrate %",
+                    data: data.map((x: any) => x.winrate_promedio),
+                    borderColor: "#e74c3c"
+                }]
+            },
+            options: { responsive: true }
+        }
+    };
 }
 
-export async function obtenerBoteAgresividad(): Promise<any> {
-    const resp = await fetch(`${API_BASE}/charts/bote-agresividad`);
-    if (!resp.ok) throw new Error("Error al obtener Bote vs Agresividad");
-    return await resp.json();
+export async function obtenerBoteAgresividad() {
+    const data = await fetchJSON(`${BASE_URL}/charts/bote-agresividad`);
+
+    return {
+        tipo: "line",
+        chart: {
+            data: {
+                labels: data.map((x: any) => x.label),
+                datasets: [{
+                    label: "Bote promedio",
+                    data: data.map((x: any) => x.bote_promedio),
+                    borderColor: "#8e44ad"
+                }]
+            },
+            options: { responsive: true }
+        }
+    };
 }
 
-export async function obtenerTimelineProfit(): Promise<any> {
-    const resp = await fetch(`${API_BASE}/charts/timeline-profit`);
-    if (!resp.ok) throw new Error("Error al obtener Timeline de Profit");
-    return await resp.json();
+export async function obtenerTimelineProfit() {
+    const data = await fetchJSON(`${BASE_URL}/charts/timeline-profit`);
+
+    return {
+        tipo: "line",
+        chart: {
+            data: {
+                labels: data.mano_id,
+                datasets: [{
+                    label: "Profit acumulado",
+                    data: data.profit_acumulado,
+                    borderColor: "#2ecc71"
+                }]
+            },
+            options: { responsive: true }
+        }
+    };
 }
