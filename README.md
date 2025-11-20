@@ -59,41 +59,34 @@ proyectoParadigma/
 
 ## 🧠 Paradigmas de Programación Aplicados
 
-El proyecto aplica múltiples paradigmas, de manera clara y complementaria:
-
 ### ✔️ Imperativo
+Presente en:
 
-Control de flujo en:
+- Rutas Flask  
+- Control de flujo  
+- Manipulación del DOM  
+- Renderizado dinámico de gráficos  
 
-Flask y definición de rutas
-
-Manejo DOM en TypeScript
-
-Renderizado dinámico de gráficos
+---
 
 ### ✔️ Funcional
-
 Funciones puras y reutilizables:
 
-equity()
+- `equity()`  
+- `outs()`  
+- `evaluar_mano_total()`  
+- Procesos estadísticos en `stats.py`
 
-outs()
+---
 
-evaluar_mano_total()
+### ✔️ Modular (estilo POO)
+Aunque no se usan clases, se aplican principios POO:
 
-Procesamiento estadístico en stats.py
+- Organización modular  
+- Separación de responsabilidades  
+- Módulos reutilizables y escalables  
 
-Sin efectos secundarios y con retornos deterministas.
-
-### ✔️ Orientado a Objetos (POO) — de forma ligera
-
-A través de:
-
-Modularización en componentes reutilizables
-
-Separación estricta de responsabilidades
-
-Estructuras mantenibles y escalables
+---
 
 ## Requisitos Previos
 
@@ -222,154 +215,123 @@ Verifica que Flask esté ejecutándose correctamente y que no haya cambiado el p
 
 Desde la interfaz, presionar:
 
+```bash
 [ Generar nuevo dataset ]
-
+```
 
 Esto produce un nuevo archivo poker_dataset.json con miles de manos simuladas.
 
-✔️ Ver estadísticas generales
+### ✔️ Ver estadísticas generales
 
 El panel muestra:
 
-Total de manos
+- Total de manos  
+- Ganadas / Perdidas  
+- Winrate  
+- Agresividad media  
+- Riesgo medio  
+- Profit neto  
+- Bote promedio  
 
-Winrate
+Todos los valores son calculados y enviados por el backend.
 
-Ganadas y perdidas
+---
 
-Agresividad media
+### ✔️ Analizador de mano por fases
 
-Riesgo medio
+1. Selecciona tus dos cartas  
+2. Elige tu posición  
+3. Presiona **Analizar Mano por Fases**
 
-Profit neto
+El backend simula automáticamente:
 
-Bote promedio
+- **Flop**
+- **Turn**
+- **River**
 
-Todo se calcula desde el backend.
+Y entrega:
 
-✔️ Analizar una mano por fases
+- Categoría por fase  
+- Equity por fase  
+- Outs  
+- Cartas que mejoran  
+- Recomendación por fase  
+- Análisis general  
+- Recomendación final  
+- Gráfico de evolución de equity  
 
-Selecciona tus dos cartas.
+---
 
-Elige tu posición.
+### ✔️ Visualizaciones (Dashboard)
 
-Presiona "Analizar Mano por Fases".
+Incluye gráficos de:
 
-El backend simula:
+- Winrate por posición  
+- Histogramas de botes  
+- Agresividad vs Winrate  
+- Frecuencia de categorías  
+- Riesgo vs Winrate  
+- Bote promedio según agresividad  
+- Profit acumulado  
 
-Flop
+Todos generados dinámicamente con **Chart.js**.
 
-Turn
+---
 
-River
+## 📊 Procesamiento en Backend
 
-Y calcula:
+El backend realiza:
 
-Equity
+- Simulación de mazos  
+- Cálculo de Equity (Monte Carlo)  
+- Evaluación automática de manos  
+- Cálculo de outs  
+- Estadísticas agrupadas con **Pandas**  
+- Exposición de **API REST**  
 
-Categoría de mano
+---
 
-Outs
+## 🔗 Integración Frontend + Backend
 
-Cartas que mejoran
+Rutas REST principales:
 
-Recomendaciones
-
-Análisis general
-
-Recomendación final
-
-Gráfico de evolución de equity
-
-✔️ Explorar gráficos
-
-La sección de visualización incluye:
-
-Winrate por posición
-
-Botes y su distribución
-
-Relación agresividad/profit
-
-Categorías de manos
-
-Riesgo vs winrate
-
-Profit acumulado
-
-Todos generados dinámicamente por Chart.js.
-
-📊 Procesamiento y Visualización de Datos
-
-El backend ejecuta:
-
-Simulación de mazos
-
-Equity Monte Carlo
-
-Evaluación de manos
-
-Cálculo de outs
-
-Métricas agrupadas
-
-Exportación en JSON
-
-El frontend muestra:
-
-Información numérica
-
-Recomendaciones textuales
-
-Simulación de fases del juego
-
-Gráficos interactivos
-
-🔗 Integración Frontend + Backend
-
-Toda la comunicación se realiza mediante API REST:
-
+```bash
 /api/generar
 /api/estadisticas
 /api/analizar-fases
 /api/charts/*
+```
 
+Toda la comunicación es manejada desde `api.ts` usando **fetch()**.
 
-El frontend consume estos datos con fetch() desde api.ts.
+---
 
-📁 Modularidad y Limpieza del Código
-Backend
+## 🧹 Modularidad y Limpieza
 
-Módulos separados: generación, análisis, estadísticas, servidor
+### Backend
+- Módulos separados: **generación**, **proceso**, **estadísticas**  
+- Código documentado  
+- Estructura clara y extensible  
 
-Código reutilizable y documentado
+### Frontend
+- `api.ts` → capa de servicios REST  
+- `main.ts` → controlador de interfaz  
+- HTML organizado  
+- CSS limpio y responsivo  
 
-Flujo claro y escalable
+---
 
-Frontend
+## 🧾 Repositorio y Gestión del Código
 
-api.ts como capa de servicios
+- Repositorio actualizado  
+- Incluye EP1, EP2 y entrega final  
+- Commits descriptivos  
+- Separación clara entre frontend y backend  
 
-main.ts como controlador de interfaz
+---
 
-HTML estructurado
+## 👥 Autores
 
-CSS limpio y responsivo
-
-🧾 Reposición y Gestión del Código
-
-El repositorio se mantiene ordenado y actualizado
-
-Incluye EP1, EP2 y la entrega final
-
-Commits frecuentes y claros
-
-Separación correcta entre frontend y backend
-
-👥 Autores
-
-Gaspar Albornoz
-
-Ramón Espinoza
-
-Vicente González
+- **Gaspar Albornoz**  
+- **Ramón Espinoza**  
+- **Vicente González**
