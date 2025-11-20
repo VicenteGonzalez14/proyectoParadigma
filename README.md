@@ -2,8 +2,22 @@
 
 ## Objetivo
 
-Este proyecto implementa una versión intermedia operativa del sistema **PreFlopData**, una aplicación web para el análisis de datos de póker **Texas Hold’em**.  
-En esta etapa se demuestra la conexión real **Frontend ↔ Backend**, la **generación y manipulación de datos simulados** y la **validación de entradas y salidas reales**.
+PreFlopData es una aplicación web completa para el análisis de datos de póker Texas Hold’em, integrando un backend en Python/Flask y un frontend en HTML + TypeScript.
+Esta entrega final incluye:
+
+Aplicación web operativa y funcional
+
+Integración total entre frontend y backend
+
+Visualización gráfica dinámica
+
+Análisis de manos fase por fase
+
+Uso de múltiples paradigmas de programación
+
+Código modular, mantenible y documentado
+
+Manual de usuario y documentación técnica
 
 - **Backend (Flask + Python):** genera, procesa y devuelve estadísticas de un dataset simulado de póker.
 - **Frontend (HTML + TypeScript + CSS):** permite visualizar los resultados y estadísticas obtenidas desde el backend.
@@ -42,6 +56,44 @@ proyectoParadigma/
 └── Otros (en esta carpeta se encuentra el EP1, ya que al momento de informar para realizar otro branch ya habiamos modificado el anterior)
 ```
 ---
+
+## 🧠 Paradigmas de Programación Aplicados
+
+El proyecto aplica múltiples paradigmas, de manera clara y complementaria:
+
+### ✔️ Imperativo
+
+Control de flujo en:
+
+Flask y definición de rutas
+
+Manejo DOM en TypeScript
+
+Renderizado dinámico de gráficos
+
+### ✔️ Funcional
+
+Funciones puras y reutilizables:
+
+equity()
+
+outs()
+
+evaluar_mano_total()
+
+Procesamiento estadístico en stats.py
+
+Sin efectos secundarios y con retornos deterministas.
+
+### ✔️ Orientado a Objetos (POO) — de forma ligera
+
+A través de:
+
+Modularización en componentes reutilizables
+
+Separación estricta de responsabilidades
+
+Estructuras mantenibles y escalables
 
 ## Requisitos Previos
 
@@ -160,39 +212,164 @@ Asegúrate de que el backend esté corriendo en el puerto 5000 antes de recargar
 
 Verifica que Flask esté ejecutándose correctamente y que no haya cambiado el puerto.
 
-# 📊 Validación de Resultados
-
-Al abrir la página, se mostrarán las estadísticas obtenidas dinámicamente desde el backend:
-
-   ```text
-   Total de manos generadas
-
-   Manos ganadas y perdidas
-
-   Porcentaje de victoria
-
-   Bote promedio
-
-   Agresividad media
-
-   Riesgo medio
-   ```
-
-Estos datos se leen directamente desde el dataset poker_dataset.json generado por el backend Flask.
-
-##  Notas Técnicas
-
-El proyecto aplica los paradigmas POO, Funcional e Imperativo.
-
-La comunicación entre capas utiliza el formato REST + JSON sobre el protocolo HTTP.
-
-El archivo scripts.js no se usa en esta entrega, pero se reserva para futuras extensiones visuales (por ejemplo, integración con Chart.js en la EP3).
 
 ## Se recomienda mantener este flujo de ejecución:
 
 1️⃣ Iniciar backend → 2️⃣ Compilar frontend → 3️⃣ Visualizar página.
 
-Autores: 
-- Gaspar Albornoz
-- Ramon Espinoza
-- Vicente González.
+## 📘 Manual de Usuario
+✔️ Generar dataset
+
+Desde la interfaz, presionar:
+
+[ Generar nuevo dataset ]
+
+
+Esto produce un nuevo archivo poker_dataset.json con miles de manos simuladas.
+
+✔️ Ver estadísticas generales
+
+El panel muestra:
+
+Total de manos
+
+Winrate
+
+Ganadas y perdidas
+
+Agresividad media
+
+Riesgo medio
+
+Profit neto
+
+Bote promedio
+
+Todo se calcula desde el backend.
+
+✔️ Analizar una mano por fases
+
+Selecciona tus dos cartas.
+
+Elige tu posición.
+
+Presiona "Analizar Mano por Fases".
+
+El backend simula:
+
+Flop
+
+Turn
+
+River
+
+Y calcula:
+
+Equity
+
+Categoría de mano
+
+Outs
+
+Cartas que mejoran
+
+Recomendaciones
+
+Análisis general
+
+Recomendación final
+
+Gráfico de evolución de equity
+
+✔️ Explorar gráficos
+
+La sección de visualización incluye:
+
+Winrate por posición
+
+Botes y su distribución
+
+Relación agresividad/profit
+
+Categorías de manos
+
+Riesgo vs winrate
+
+Profit acumulado
+
+Todos generados dinámicamente por Chart.js.
+
+📊 Procesamiento y Visualización de Datos
+
+El backend ejecuta:
+
+Simulación de mazos
+
+Equity Monte Carlo
+
+Evaluación de manos
+
+Cálculo de outs
+
+Métricas agrupadas
+
+Exportación en JSON
+
+El frontend muestra:
+
+Información numérica
+
+Recomendaciones textuales
+
+Simulación de fases del juego
+
+Gráficos interactivos
+
+🔗 Integración Frontend + Backend
+
+Toda la comunicación se realiza mediante API REST:
+
+/api/generar
+/api/estadisticas
+/api/analizar-fases
+/api/charts/*
+
+
+El frontend consume estos datos con fetch() desde api.ts.
+
+📁 Modularidad y Limpieza del Código
+Backend
+
+Módulos separados: generación, análisis, estadísticas, servidor
+
+Código reutilizable y documentado
+
+Flujo claro y escalable
+
+Frontend
+
+api.ts como capa de servicios
+
+main.ts como controlador de interfaz
+
+HTML estructurado
+
+CSS limpio y responsivo
+
+🧾 Reposición y Gestión del Código
+
+El repositorio se mantiene ordenado y actualizado
+
+Incluye EP1, EP2 y la entrega final
+
+Commits frecuentes y claros
+
+Separación correcta entre frontend y backend
+
+👥 Autores
+
+Gaspar Albornoz
+
+Ramón Espinoza
+
+Vicente González
