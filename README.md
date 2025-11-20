@@ -1,4 +1,4 @@
-# PreFlopData – Entrega Parcial 2
+# PreFlopData 
 
 ## Objetivo
 
